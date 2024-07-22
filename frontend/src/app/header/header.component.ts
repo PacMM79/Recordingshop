@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
 import { Products } from '../interfaces/products';
 import { CommonModule } from '@angular/common';
+import { CartModalComponent } from '../shared/cart-modal.component';
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CartModalComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -23,22 +24,6 @@ export class HeaderComponent implements OnInit {
       this.cart = cart;
       this.updateCartCount();
     });
-
-    this.cartService.totalSubject.subscribe((total) => {
-      this.total = total;
-    });
-  }
-
-  removeFromCart(id: number): void {
-    this.cartService.removeFromCart(id);
-  }
-
-  cleanCart(): void {
-    this.cartService.cleanCart();
-  }
-
-  buyProduct(id: number): void {
-    this.cartService.buy(id, this.cart);
   }
 
   private updateCartCount(): void {

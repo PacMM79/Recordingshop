@@ -4,13 +4,13 @@ import { Products } from '../interfaces/products';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-modal',
+  selector: 'app-cart-modal',
   standalone: true,
   imports: [CommonModule],
 
-  templateUrl: './modal.component.html'
+  templateUrl: './cart-modal.component.html'
 })
-export class ModalComponent implements OnInit {
+export class CartModalComponent implements OnInit {
   cart: Products[] = [];
   total: number = 0;
 
@@ -31,9 +31,8 @@ export class ModalComponent implements OnInit {
     this.cartService.cleanCart();
   }
 
-  buyProduct(productId: number): void {
-    // Aquí necesitarías pasar la lista de productos disponibles
-    // this.cartService.buy(productId, productosDisponibles);
+  buyProduct(id: number): void {
+    this.cartService.buy(id, this.cart);
   }
 
   removeFromCart(productId: number): void {

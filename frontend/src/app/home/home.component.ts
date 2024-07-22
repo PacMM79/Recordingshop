@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../services/cart.service';
 import { ProductService } from '../services/product.service';
-import { ModalComponent } from '../shared/modal.component';
+import { CartModalComponent } from '../shared/cart-modal.component';
 import { HeaderComponent } from '../header/header.component';
 import { Products } from '../interfaces/products';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ModalComponent, HeaderComponent],
+  imports: [CommonModule, CartModalComponent, HeaderComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
