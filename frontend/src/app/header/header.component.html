@@ -1,0 +1,83 @@
+<!-- Navigation-->
+<nav class="navbar fixed-top navbar-light bg-light navbar-expand-lg" id="navbar-example2">
+	<div class="container d-flex">
+	  <a class="navbar-brand" href="index.html">ShopNow</a>
+	  <div class="d-flex flex-row order-lg-last align-items-center">
+		<button type="button" class="navbar-toggler order-last collapsed" data-bs-toggle="collapse" data-bs-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		<ul class="navbar-nav me-3 me-lg-0 d-flex flex-row align-items-center">
+		  <li class="dropdown search-dropdown nav-item py-lg-3">
+			<a href="javascript:void(0)" class="btn btn-outline-dark flex-center" type="button" data-bs-toggle="modal" data-bs-target="#cartModal">
+			  <i class="fas fa-shopping-cart me-1"></i> Cart <span class="badge bg-dark text-white ms-1 rounded-pill">{{ cartCount }}</span>
+			</a>
+		  </li>
+		</ul>
+	  </div>
+	  <div id="navbar" class="navbar-collapse collapse">
+		<ul class="navbar-nav me-auto mb-4 mb-lg-0 ms-lg-5">
+		  <li class="nav-item">
+			<a class="nav-link" href="#grocery"><i class="fas fa-shopping-basket"></i> Grocery</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="#beauty"><i class="fas fa-heart"></i> Beauty</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="#clothes"><i class="fas fa-tshirt"></i> Clothes</a>
+		  </li>
+		</ul>
+	  </div>
+	</div>
+  </nav>
+  
+  <!-- Modal for Cart -->
+  <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="cartModalLabel"><i class="fas fa-cart-arrow-down"></i> My Cart</h5>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+		  <h3 class="text-center bill px-5">Shopping Cart</h3>
+		  <div>
+			<button (click)="cleanCart()" class="btn btn-danger">Clean Cart</button>
+			<table *ngIf="cart.length > 0; else emptyCart" class="table">
+			  <thead>
+				<tr>
+				  <th>Name</th>
+				  <th>Price</th>
+				  <th>Quantity</th>
+				  <th>Total</th>
+				  <th>Actions</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr *ngFor="let product of cart">
+				  <td>{{ product.name }}</td>
+				  <td>{{ product.price | currency }}</td>
+				  <td>{{ product.quantity }}</td>
+				  <td>{{ (product.price * product.quantity * (1 - (product.discountPercent || 0) / 100)) | currency }}</td>
+				  <td>
+					<button (click)="buyProduct(product.id)" class="badge rounded-pill text-bg-success">+1</button>
+					<button (click)="removeFromCart(product.id)" class="badge rounded-pill text-bg-danger">-1</button>
+				  </td>
+				</tr>
+			  </tbody>
+			  <tfoot>
+				<tr>
+				  <td colspan="3">Total:</td>
+				  <td> {{ total | currency }}</td>
+				  <td></td>
+				</tr>
+			  </tfoot>
+			</table>
+			<ng-template #emptyCart>
+			  <p>Your cart is empty.</p>
+			</ng-template>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
