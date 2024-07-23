@@ -10,7 +10,7 @@ export class ProductService {
   private products: Products[] = [
     {
       id: 1,
-      name: 'Cooking oil',
+      name: 'Curtis Mayfield - Curtis',
       price: 10.5,
       quantity: 5,
       category: 'grocery',
