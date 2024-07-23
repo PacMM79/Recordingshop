@@ -1,0 +1,106 @@
+<div class="container">
+  <h1 class="text-center head m-4">Checkout Page</h1>
+
+  <div class="row mr-0">
+    <div class="col-sm-6">
+      <h3 class="my-3 bord shadow text-center"><i class="fas fa-dollar-sign p-2"></i>Cash on Delivery</h3>
+    </div>
+    <div class="col-sm-6 ">
+      <h3 class="my-3 bord shadow text-center"><i class="fas fa-arrows-alt-h p-2"></i>100% Return</h3>
+    </div>
+  </div>
+
+  <div class="row mr-0">
+    <div class="col-sm-6">
+      <h3 class="my-3 bord shadow text-center"><i class="far fa-thumbs-up p-2"></i>Quality Assured</h3>
+    </div>
+    <div class="col-sm-6 ">
+      <h3 class="my-3 bord shadow text-center"><i class="fas fa-stopwatch p-2"></i>Delivery on time</h3>
+    </div>
+  </div>
+
+<!--Checkout table-->
+<h3 class="text-center bill px-5">Shopping Cart</h3>
+		  <div>
+			<table *ngIf="cart.length > 0; else emptyCart" class="table">
+			  <thead>
+				<tr>
+				  <th>Name</th>
+				  <th>Price</th>
+				  <th>Quantity</th>
+				  <th>Total</th>
+				  <th>Actions</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr *ngFor="let product of cart">
+				  <td>{{ product.name }}</td>
+				  <td>{{ product.price | currency }}</td>
+				  <td>{{ product.quantity }}</td>
+				  <td>{{ (product.price * product.quantity * (1 - (product.discountPercent || 0) / 100)) | currency }}</td>
+				  <td>
+					<button (click)="buyProduct(product.id)" class="badge rounded-pill text-bg-success">+1</button>
+					<button (click)="removeFromCart(product.id)" class="badge rounded-pill text-bg-danger">-1</button>
+				  </td>
+				</tr>
+			  </tbody>
+			  <tfoot>
+				<tr>
+				  <td colspan="3">Total:</td>
+				  <td> {{ total | currency }}</td>
+				  <td></td>
+				</tr>
+			  </tfoot>
+			</table>
+
+      <button (click)="cleanCart()" class="btn btn-danger">Clean Cart</button>
+
+      <ng-template #emptyCart>
+			  <p>Your cart is empty.</p>
+			</ng-template>
+
+  <form class="form" id="checkoutForm">
+    <div class="row bord p-5 shadow m-5">
+      <div class="col-sm-6">
+        <div class="mt-3">
+          <label for="fName" class="form-label">First Name:</label>
+          <input id="fName" class="form-control ml-3" type="text" placeholder="First Name" />
+          <div id="errorName" class="invalid-feedback">This field is required and must have, at least, 3 characters</div>
+        </div>
+        <div class="mt-3 ">
+          <label for="fEmail" class="form-label">Email:</label>
+          <input id="fEmail" class="form-control ml-3" type="email" placeholder="Email" minlength="3" />
+          <div id="errorEmail" class="invalid-feedback">This field is required and must contain an "&#64;" and have, at least, 3 characters</div>
+        </div>
+        <div class="mt-3 ">
+          <label for="fAddress" class="form-label">Address:</label>
+          <input id="fAddress" class="form-control" type="text" placeholder="Address" minlength="3" />
+          <div id="errorAddress" class="invalid-feedback">This field is required and must have, at least, 3 characters</div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="mt-3">
+          <label for="fLastN" class="form-label">Last Name:</label>
+          <input id="fLastN" class="form-control" type="text" placeholder="Last Name" minlength="3" />
+          <div id="errorLastN" class="invalid-feedback">This field is required and must have, at least, 3 characters</div>
+        </div>
+        <div class="mt-3">
+          <label for="fPassword" class="form-label">Password:</label>
+          <input id="fPassword" class="form-control" title="(4-8 characters)" type="password" minlength="4" maxlength="8" placeholder="Password" />
+          <div id="errorPassword" class="invalid-feedback">Enter a correct password</div>
+        </div>
+        <div class="mt-3">
+          <label for="fPhone" class="form-label">Phone Number:</label>
+          <input id="fPhone" class="form-control" type="tel" minlength="9" placeholder="Phone No." />
+          <div id="errorPhone" class="invalid-feedback">Invalid phone number!! Must be 9 digits with no letters</div>
+        </div>
+      </div>
+      <div class="col-12 mt-4 final">
+        <button type="button" id="btn" class="p-2 px-4 btn btn-primary shadow-lg" onclick="validate()">
+          <i class="fas fa-cart-arrow-down p-2"></i>Save
+        </button>
+      </div>
+    </div>
+  </form>
+
+</div>

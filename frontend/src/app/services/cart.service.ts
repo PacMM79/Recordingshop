@@ -6,12 +6,13 @@ import { Products } from '../interfaces/products';
   providedIn: 'root',
 })
 export class CartService {
-  private cart: Products[] = [];
-  private total: number = 0;
+  private cartKey = 'cart';
+  private cart: Products[] = this.loadCart();
+  private total: number = this.calculateTotal();
 
   // Subjects to update the cart state
-  cartSubject: BehaviorSubject<Products[]> = new BehaviorSubject<Products[]>([]);
-  totalSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  cartSubject: BehaviorSubject<Products[]> = new BehaviorSubject<Products[]>(this.cart);
+  totalSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.total);
 
   constructor() {}
 
@@ -32,6 +33,7 @@ export class CartService {
       this.total = this.calculateTotal();
       this.applyPromotionsCart();
       this.updateCartView();
+      this.saveCart();
     }
   }
 
@@ -42,12 +44,13 @@ export class CartService {
   getTotal(): BehaviorSubject<number> {
     return this.totalSubject;
   }
-  
+
   cleanCart(): void {
     this.cart = [];
     this.total = 0;
     this.updateCartCounter();
     this.updateCartView();
+    this.saveCart();
   }
 
   calculateTotal(): number {
@@ -86,6 +89,7 @@ export class CartService {
       this.applyPromotionsCart();
       this.updateCartCounter();
       this.updateCartView();
+      this.saveCart();
     }
   }
 
@@ -101,4 +105,12 @@ export class CartService {
     this.updateCartView();
   }
 
+  private saveCart(): void {
+    localStorage.setItem(this.cartKey, JSON.stringify(this.cart));
+  }
+
+  private loadCart(): Products[] {
+    const cart = localStorage.getItem(this.cartKey);
+    return cart ? JSON.parse(cart) : [];
+  }
 }

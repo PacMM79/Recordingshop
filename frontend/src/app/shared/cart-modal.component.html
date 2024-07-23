@@ -9,7 +9,6 @@
 		<div class="modal-body">
 		  <h3 class="text-center bill px-5">Shopping Cart</h3>
 		  <div>
-			<button (click)="cleanCart()" class="btn btn-danger">Clean Cart</button>
 			<table *ngIf="cart.length > 0; else emptyCart" class="table">
 			  <thead>
 				<tr>
@@ -40,6 +39,8 @@
 				</tr>
 			  </tfoot>
 			</table>
+      <button (click)="cleanCart()" class="btn btn-danger">Clean Cart</button>
+
 			<ng-template #emptyCart>
 			  <p>Your cart is empty.</p>
 			</ng-template>
