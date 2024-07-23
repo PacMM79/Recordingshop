@@ -1,44 +1,51 @@
-<!-- Navigation-->
+<!-- Navigation Menu-->
 <nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-lg" id="navbar-example2">
 	<div class="container d-flex">
-	  <a class="navbar-brand" href="index.html"><img src="assets/images/barcelona-city-records-logo.png"></a>
-	  <div class="d-flex flex-row order-lg-last align-items-center">
-		<button type="button" class="navbar-toggler order-last collapsed" data-bs-toggle="collapse" data-bs-target="#navbar" aria-expanded="false" aria-controls="navbar">
-		  <span class="navbar-toggler-icon"></span>
-		</button>
-		<ul class="navbar-nav me-3 me-lg-0 d-flex flex-row align-items-center">
-		  <li class="dropdown search-dropdown nav-item py-lg-3">
-			<a href="javascript:void(0)" class="btn btn-outline-light flex-center" type="button" data-bs-toggle="modal" data-bs-target="#cartModal">
-			  <i class="fas fa-shopping-cart me-1"></i> Cart <span class="badge text-white ms-1 rounded-pill bg-primary">{{ cartCount }}</span>
-			</a>
-		  </li>
-		</ul>
-	  </div>
-	  <div id="navbar" class="navbar-collapse collapse">
-		<ul class="navbar-nav me-auto mb-4 mb-lg-0 ms-lg-5">
-		  <li class="nav-item">
-			<a class="nav-link" href="/checkout"><i class="fas fa-shopping-basket"></i> Checkout</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link" href="#beauty"><i class="fas fa-heart"></i> Beauty</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link" href="#clothes"><i class="fas fa-tshirt"></i> Clothes</a>
-		  </li>
-		</ul>
-	  </div>
-	</div>
-  </nav>
-
-	<!-- Header-->
-	<header class="bg-dark py-5 shop_header">
-		<div class="container my-5"><br></div>
-		<div class="container px-4 px-lg-5 my-5">
-			<div class="text-center text-white banner">
-				<h1 class="display-4 fw-bolder">Barcelona City Records</h1>
-				<p class="lead fw-normal mb-0">Get up to 50% off Today Only!</p>
-			</div>
+		<a class="navbar-brand" href="index.html"><img src="assets/images/barcelona-city-records-logo.png"
+				class="brand-logo"></a>
+		<div class="d-flex flex-row order-lg-last align-items-center">
+			<button type="button" class="navbar-toggler order-last collapsed" data-bs-toggle="collapse"
+				data-bs-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<ul class="navbar-nav me-3 me-lg-0 d-flex flex-row align-items-center">
+				<li class="dropdown search-dropdown nav-item py-lg-3">
+					<a href="javascript:void(0)" class="btn btn-outline-light flex-center" type="button"
+						data-bs-toggle="modal" data-bs-target="#cartModal">
+						<i class="fas fa-shopping-cart me-1"></i> Cart <span
+							class="badge text-white ms-1 rounded-pill bg-primary">{{ cartCount }}</span>
+					</a>
+				</li>
+			</ul>
 		</div>
-	</header>
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul class="navbar-nav me-auto mb-4 mb-lg-0 ms-lg-5">
+				<li class="nav-item">
+					<a class="nav-link fw-bolder" href="/home">HOME</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link fw-bolder" href="/checkout"><i class="fas fa-shopping-basket"></i> CHECKOUT</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link fw-bolder" href="#beauty"><i class="fas fa-heart"></i> Beauty</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link fw-bolder" href="#clothes"><i class="fas fa-tshirt"></i> Clothes</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
 
-  <app-cart-modal></app-cart-modal>
+<!-- Header-->
+<header class="bg-dark py-5 mt-5 shop_header bcr-header">
+	<div class="container my-5"><br></div>
+	<div class="container px-4 px-lg-5 my-5">
+		<div class="text-center text-white banner">
+			<h1 class="mt-5 mb-0 fw-bolder">BARCELONA CITY RECORDS</h1>
+			<p class="lead fw-normal mb-0">Your record buying and selling store in Barcelona</p>
+		</div>
+	</div>
+</header>
+
+<app-cart-modal></app-cart-modal>
