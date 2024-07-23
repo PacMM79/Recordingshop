@@ -1,66 +1,56 @@
 <div class="container">
   <h1 class="text-center head m-4">Checkout Page</h1>
 
-  <div class="row mr-0">
-    <div class="col-sm-6">
-      <h3 class="my-3 bord shadow text-center"><i class="fas fa-dollar-sign p-2"></i>Cash on Delivery</h3>
-    </div>
-    <div class="col-sm-6 ">
-      <h3 class="my-3 bord shadow text-center"><i class="fas fa-arrows-alt-h p-2"></i>100% Return</h3>
-    </div>
-  </div>
-
-  <div class="row mr-0">
-    <div class="col-sm-6">
-      <h3 class="my-3 bord shadow text-center"><i class="far fa-thumbs-up p-2"></i>Quality Assured</h3>
-    </div>
-    <div class="col-sm-6 ">
-      <h3 class="my-3 bord shadow text-center"><i class="fas fa-stopwatch p-2"></i>Delivery on time</h3>
-    </div>
-  </div>
-
 <!--Checkout table-->
-<h3 class="text-center bill px-5">Shopping Cart</h3>
-		  <div>
-			<table *ngIf="cart.length > 0; else emptyCart" class="table">
-			  <thead>
-				<tr>
-				  <th>Name</th>
-				  <th>Price</th>
-				  <th>Quantity</th>
-				  <th>Total</th>
-				  <th>Actions</th>
-				</tr>
-			  </thead>
-			  <tbody>
-				<tr *ngFor="let product of cart">
-				  <td>{{ product.name }}</td>
-				  <td>{{ product.price | currency }}</td>
-				  <td>{{ product.quantity }}</td>
-				  <td>{{ (product.price * product.quantity * (1 - (product.discountPercent || 0) / 100)) | currency }}</td>
-				  <td>
-					<button (click)="buyProduct(product.id)" class="badge rounded-pill text-bg-success">+1</button>
-					<button (click)="removeFromCart(product.id)" class="badge rounded-pill text-bg-danger">-1</button>
-				  </td>
-				</tr>
-			  </tbody>
-			  <tfoot>
-				<tr>
-				  <td colspan="3">Total:</td>
-				  <td> {{ total | currency }}</td>
-				  <td></td>
-				</tr>
-			  </tfoot>
-			</table>
+		  <div class="col-12 col-xxl-8 offset-xxl-2">
+        <h4 class="">You have {{cartCount}} items in your cart</h4>
+        <table *ngIf="cart.length > 0; else emptyCart" class="table table-hover fs-5">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of cart">
+              <td>{{ product.name }}</td>
+              <td>{{ product.price | currency }}</td>
 
-      <button (click)="cleanCart()" class="btn btn-danger">Clean Cart</button>
+              <td>
+                <button (click)="buyProduct(product.id)" class="badge rounded-pill bg-secondary border-0"><i
+                    class="bi bi-plus"></i></button>
+                {{ product.quantity }}
+                <button (click)="removeFromCart(product.id)" class="badge rounded-pill bg-secondary border-0"><i
+                    class="bi bi-dash"></i></button>
+              </td>
 
-      <ng-template #emptyCart>
-			  <p>Your cart is empty.</p>
-			</ng-template>
+              <td>{{ (product.price * product.quantity * (1 - (product.discountPercent || 0) / 100)) |
+                currency }}</td>
 
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3"><b>Total:</b></td>
+              <td><b>{{ total | currency }}</b></td>
+
+            </tr>
+          </tfoot>
+        </table>
+        
+          <button (click)="cleanCart()" class="btn btn-danger">Clean Cart</button>
+        
+        <ng-template #emptyCart>
+          <p class="mt-4">Your cart is empty.</p>
+        </ng-template>
+
+  <!--Checkout Form-->
   <form class="form" id="checkoutForm">
     <div class="row bord p-5 shadow m-5">
+      <h3>Make an order</h3>
+      <h6>Billing & Shipping</h6>
       <div class="col-sm-6">
         <div class="mt-3">
           <label for="fName" class="form-label">First Name:</label>
@@ -102,5 +92,23 @@
       </div>
     </div>
   </form>
+
+  <div class="row mr-0">
+    <div class="col-sm-6">
+      <h4 class="my-3 bord shadow text-center"><i class="fas fa-dollar-sign p-2"></i>Cash on Delivery</h4>
+    </div>
+    <div class="col-sm-6 ">
+      <h4 class="my-3 bord shadow text-center"><i class="fas fa-arrows-alt-h p-2"></i>100% Return</h4>
+    </div>
+  </div>
+
+  <div class="row mr-0 mb-5">
+    <div class="col-sm-6">
+      <h4 class="my-3 bord shadow text-center"><i class="far fa-thumbs-up p-2"></i>Quality Assured</h4>
+    </div>
+    <div class="col-sm-6 ">
+      <h4 class="my-3 bord shadow text-center"><i class="fas fa-stopwatch p-2"></i>Delivery on time</h4>
+    </div>
+  </div>
 
 </div>

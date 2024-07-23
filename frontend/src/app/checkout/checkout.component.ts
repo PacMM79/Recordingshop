@@ -14,6 +14,7 @@ import { Products } from '../interfaces/products';
 export class CheckoutComponent implements OnInit {
   cart: Products[] = [];
   total: number = 0;
+  cartCount: number = 0;
 
   constructor(private cartService: CartService) {}
 
@@ -21,6 +22,7 @@ export class CheckoutComponent implements OnInit {
     this.cartService.getCart().subscribe(cart => {
       this.cart = cart;
       this.calculateTotal();
+      this.updateCartCount();
     });
 
     this.cartService.getTotal().subscribe(total => {
@@ -42,6 +44,10 @@ export class CheckoutComponent implements OnInit {
 
   calculateTotal(): void {
     this.total = this.cart.reduce((acc, product) => acc + (product.price * product.quantity * (1 - (product.discountPercent || 0) / 100)), 0);
+  }
+
+  private updateCartCount(): void {
+    this.cartCount = this.cart.reduce((count, product) => count + product.quantity, 0);
   }
 
 }
