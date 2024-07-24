@@ -4,7 +4,7 @@ import { Products } from '../../interfaces/products';
 import { CommonModule } from '@angular/common';
 import { CartModalComponent } from '../../shared/cart-modal.component';
 import { AuthService } from '../../services/auth.service';
-import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -19,13 +19,16 @@ export class HeaderComponent implements OnInit {
   cartCount: number = 0;
   currentUser: any;
 
-  constructor(private cartService: CartService, private authService: AuthService) {}
+  constructor(private cartService: CartService, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.cartService.cartSubject.subscribe((cart) => {
       this.cart = cart;
       this.updateCartCount();
-      this.currentUser = this.authService;
+    });
+
+    this.authService.currentUser.subscribe((user) => {
+      this.currentUser = user;
     });
   }
 
@@ -35,5 +38,9 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  login() {
+    this.router.navigate(['/login']);
   }
 }

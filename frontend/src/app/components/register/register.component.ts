@@ -11,12 +11,13 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+  name: string = '';
   email: string = '';
   password: string = '';
 
   constructor(private authService: AuthService) {}
 
   register() {
-    this.authService.register(this.email, this.password);
+    this.authService.register(this.name, this.email, this.password);
   }
 }

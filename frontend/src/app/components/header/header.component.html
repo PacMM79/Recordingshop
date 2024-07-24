@@ -19,7 +19,7 @@
 			</ul>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
-			<ul class="navbar-nav me-auto mb-4 mb-lg-0 ms-lg-5">
+			<ul class="navbar-nav me-auto mb-0 mb-lg-0">
 				<li class="nav-item">
 					<a class="nav-link fw-bolder" href="/home">HOME</a>
 				</li>
@@ -35,9 +35,12 @@
 			</ul>
 
 			<div>
-				<h6>Bienvenido, {{ currentUser?.displayName }}</h6>
-				<button (click)="logout()" class="btn btn-outline-light">Cerrar sesión</button>
-			</div>
+				<span *ngIf="currentUser">Hi! {{ currentUser.displayName }}</span>
+				<button *ngIf="currentUser" (click)="logout()" class="btn btn-outline-light mx-2">Logout</button>
+				<button *ngIf="!currentUser" (click)="login()" class="btn btn-outline-light mx-2">Login</button>
+			  </div>
+			  
+			  
 			  
 
 		</div>
