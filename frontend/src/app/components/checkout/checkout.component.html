@@ -21,17 +21,17 @@
               <td>{{ product.price | number:'1.2-2'  }} €</td>
 
               <td>
-                <button (click)="buyProduct(product.id)" class="badge rounded-pill bg-secondary border-0"><i
+                <button (click)="buyProduct(product.id)" class="badge rounded-pill bg-secondary border-0 align-text-top"><i
                     class="bi bi-plus"></i></button>
                 {{ product.quantity }}
-                <button (click)="removeFromCart(product.id)" class="badge rounded-pill bg-secondary border-0"><i
+                <button (click)="removeFromCart(product.id)" class="badge rounded-pill bg-secondary border-0 align-text-top"><i
                     class="bi bi-dash"></i></button>
               </td>
 
               <td>
                 {{ (product.price * product.quantity * (1 - (product.discountPercent || 0) / 100)) | number:'1.2-2'}} €
-                <span *ngIf="(product.discountPercent || (product.offer?.percent && product.quantity >= (product.offer?.number ?? 0)))" class="badge rounded-pill bg-success ms-2">
-                  Discount
+                <span *ngIf="(product.discountPercent || (product.offer?.percent && product.quantity >= (product.offer?.number ?? 0)))" class="badge rounded-pill bg-success ms-2 align-text-top">
+                  Discount {{product.discountPercent}}%
                 </span>
               </td>
 
@@ -49,7 +49,7 @@
 
               
             </tr>
-            <button (click)="cleanCart()" class="btn btn-outline-danger mt-3">Clean Cart</button>
+            <button (click)="cleanCart()" class="btn btn-outline-danger mt-3 ms-2">Clean Cart</button>
 
           </tfoot>
 
@@ -123,7 +123,7 @@
                 <label class="form-check-label" for="flexSwitchCheckChecked">Create an account?</label>
               </div>
               <button type="submit" class="p-2 px-4 btn btn-primary shadow-lg" [disabled]="checkoutForm.invalid">
-                <i class="fas fa-cart-arrow-down p-2"></i>Save
+                <i class="fas fa-cart-arrow-down p-2"></i>Place Order
               </button>
             </div>
           </div>
