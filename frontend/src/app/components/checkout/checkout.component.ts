@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 import { Products } from '../../interfaces/products';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-checkout',
@@ -16,8 +17,10 @@ export class CheckoutComponent implements OnInit {
   total: number = 0;
   cartCount: number = 0;
   checkoutForm!: FormGroup;
+  currentUser: any;
 
-  constructor(private cartService: CartService, private fb: FormBuilder) {}
+
+  constructor(private cartService: CartService, private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.cartService.getCart().subscribe(cart => {
@@ -37,6 +40,10 @@ export class CheckoutComponent implements OnInit {
       postcode: ['', [Validators.required, Validators.minLength(3)]],
       country: ['', [Validators.required, Validators.minLength(3)]],
       phone: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]]
+    });
+
+    this.authService.currentUser.subscribe((user) => {
+      this.currentUser = user;
     });
   }
 

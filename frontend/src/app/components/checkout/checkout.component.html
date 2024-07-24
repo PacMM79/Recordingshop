@@ -3,6 +3,7 @@
 
 <!--Checkout table-->
 		  <div class="col-12 col-xxl-8 offset-xxl-2">
+        <h3>Hi! {{ currentUser.displayName }}</h3>
         <h4 class="">You have {{cartCount}} items in your cart</h4>
         <table *ngIf="cart.length > 0; else emptyCart" class="table table-hover fs-5">
           <thead>
@@ -40,7 +41,7 @@
           </tfoot>
         </table>
         
-          <button (click)="cleanCart()" class="btn btn-danger">Clean Cart</button>
+          <button (click)="cleanCart()" class="btn btn-outline-danger">Clean Cart</button>
         
         <ng-template #emptyCart>
           <p class="mt-4">Your cart is empty.</p>
