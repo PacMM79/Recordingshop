@@ -46,60 +46,78 @@
           <p class="mt-4">Your cart is empty.</p>
         </ng-template>
 
-  <!--Checkout Form-->
-   <form class="form" id="checkoutForm">
-    <div class="card border-primary p-5 m-4">
-      <h3>Make an order</h3>
-      <h6>Billing & Shipping</h6>
-      <div class="row">
-        <div class="col-6 mt-3">
-          <label for="fName" class="form-label">Name:</label>
-          <input id="fName" class="form-control ml-3" type="text" placeholder="Name" />
-          <div id="errorName" class="invalid-feedback">This field is required and must have, at least, 3 characters</div>
-        </div>
-        <div class="col-6 mt-3 ">
-          <label for="fEmail" class="form-label">Email:</label>
-          <input id="fEmail" class="form-control ml-3" type="email" placeholder="Email" minlength="3" />
-          <div id="errorEmail" class="invalid-feedback">This field is required and must contain an "&#64;" and have, at least, 3 characters</div>
-        </div>
-        <div class="col-6 mt-3 ">
-          <label for="fAddress" class="form-label">Address:</label>
-          <input id="fAddress" class="form-control" type="text" placeholder="Address" minlength="3" />
-          <div id="errorAddress" class="invalid-feedback">This field is required and must have, at least, 3 characters</div>
-        </div>
-        <div class="col-6 mt-3">
-          <label for="fLastN" class="form-label">Postcode / ZIP:</label>
-          <input id="fLastN" class="form-control" type="text" placeholder="Postcode / ZIP" minlength="3" />
-          <div id="errorLastN" class="invalid-feedback">This field is required and must have, at least, 3 characters</div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6 mt-3">
-          <label for="fLastN" class="form-label">Country</label>
-          <input id="fLastN" class="form-control" type="text" placeholder="Last Name" minlength="3" />
-          <div id="errorLastN" class="invalid-feedback">This field is required and must have, at least, 3 characters</div>
-        </div>
-        <div class="col-6 mt-3">
-          <label for="fPhone" class="form-label">Phone Number:</label>
-          <input id="fPhone" class="form-control" type="tel" minlength="9" placeholder="Phone No." />
-          <div id="errorPhone" class="invalid-feedback">Invalid phone number!! Must be 9 digits with no letters</div>
-        </div>
-      </div>
-      <div class="col-12 mt-4 final">
 
-        <div class="form-check form-switch mb-4">
-          <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
-          <label class="form-check-label" for="flexSwitchCheckChecked">Create an account?</label>
-        </div>
+        <!--Checkout Form-->
+        <form [formGroup]="checkoutForm" class="form" id="checkoutForm" (ngSubmit)="validateForm()">
+          <div class="card border-primary p-5 m-4">
+            <h3>Make an order</h3>
+            <h6>Billing & Shipping</h6>
+            <div class="row">
+              <div class="col-6 mt-3">
+                <label for="name" class="form-label">Name:</label>
+                <input id="name" formControlName="name" class="form-control ml-3" type="text" placeholder="Name" />
+                <div *ngIf="nameControl?.invalid && (nameControl?.dirty || nameControl?.touched)" class="invalid-feedback d-block">
+                  <div *ngIf="nameControl?.errors?.['required']">This field is required.</div>
+                  <div *ngIf="nameControl?.errors?.['minlength']">This field must have at least 3 characters.</div>
+                </div>
+              </div>
+              <div class="col-6 mt-3">
+                <label for="email" class="form-label">Email:</label>
+                <input id="email" formControlName="email" class="form-control ml-3" type="email" placeholder="Email" />
+                <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)" class="invalid-feedback d-block">
+                  <div *ngIf="emailControl?.errors?.['required']">This field is required.</div>
+                  <div *ngIf="emailControl?.errors?.['email']">This field must contain a valid email address.</div>
+                  <div *ngIf="emailControl?.errors?.['minlength']">This field must have at least 3 characters.</div>
+                </div>
+              </div>
+              <div class="col-6 mt-3">
+                <label for="address" class="form-label">Address:</label>
+                <input id="address" formControlName="address" class="form-control" type="text" placeholder="Address" />
+                <div *ngIf="addressControl?.invalid && (addressControl?.dirty || addressControl?.touched)" class="invalid-feedback d-block">
+                  <div *ngIf="addressControl?.errors?.['required']">This field is required.</div>
+                  <div *ngIf="addressControl?.errors?.['minlength']">This field must have at least 3 characters.</div>
+                </div>
+              </div>
+              <div class="col-6 mt-3">
+                <label for="postcode" class="form-label">Postcode / ZIP:</label>
+                <input id="postcode" formControlName="postcode" class="form-control" type="text" placeholder="Postcode / ZIP" />
+                <div *ngIf="postcodeControl?.invalid && (postcodeControl?.dirty || postcodeControl?.touched)" class="invalid-feedback d-block">
+                  <div *ngIf="postcodeControl?.errors?.['required']">This field is required.</div>
+                  <div *ngIf="postcodeControl?.errors?.['minlength']">This field must have at least 3 characters.</div>
+                </div>
+              </div>
+              <div class="col-6 mt-3">
+                <label for="country" class="form-label">Country:</label>
+                <input id="country" formControlName="country" class="form-control" type="text" placeholder="Country" />
+                <div *ngIf="countryControl?.invalid && (countryControl?.dirty || countryControl?.touched)" class="invalid-feedback d-block">
+                  <div *ngIf="countryControl?.errors?.['required']">This field is required.</div>
+                  <div *ngIf="countryControl?.errors?.['minlength']">This field must have at least 3 characters.</div>
+                </div>
+              </div>
+              <div class="col-6 mt-3">
+                <label for="phone" class="form-label">Phone Number:</label>
+                <input id="phone" formControlName="phone" class="form-control" type="tel" placeholder="Phone No." />
+                <div *ngIf="phoneControl?.invalid && (phoneControl?.dirty || phoneControl?.touched)" class="invalid-feedback d-block">
+                  <div *ngIf="phoneControl?.errors?.['required']">This field is required.</div>
+                  <div *ngIf="phoneControl?.errors?.['pattern']">Invalid phone number! Must be 9 digits with no letters.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mt-4 final">
+              <div class="form-check form-switch mb-4">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
+                <label class="form-check-label" for="flexSwitchCheckChecked">Create an account?</label>
+              </div>
+              <button type="submit" class="p-2 px-4 btn btn-primary shadow-lg" [disabled]="checkoutForm.invalid">
+                <i class="fas fa-cart-arrow-down p-2"></i>Save
+              </button>
+            </div>
+          </div>
+        </form>
+        
+        
 
-        <button type="button" id="btn" class="p-2 px-4 btn btn-primary shadow-lg" onclick="validate()">
-          <i class="fas fa-cart-arrow-down p-2"></i>Save
-        </button>
-      </div>
-    </div>
-  </form>
-
-
+<!--Footer Banner-->
   <div class="row mr-0">
     <div class="col-sm-6">
       <h4 class="my-3 bord shadow text-center"><i class="fas fa-dollar-sign p-2"></i>Cash on Delivery</h4>

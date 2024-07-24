@@ -2,22 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 import { Products } from '../../interfaces/products';
-import { AuthService } from '../../services/auth.service';
-
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './checkout.component.html',
-  styleUrl: './checkout.component.scss'
+  styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit {
   cart: Products[] = [];
   total: number = 0;
   cartCount: number = 0;
+  checkoutForm!: FormGroup;
 
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.cartService.getCart().subscribe(cart => {
@@ -28,6 +28,15 @@ export class CheckoutComponent implements OnInit {
 
     this.cartService.getTotal().subscribe(total => {
       this.total = total;
+    });
+
+    this.checkoutForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email, Validators.minLength(3)]],
+      address: ['', [Validators.required, Validators.minLength(3)]],
+      postcode: ['', [Validators.required, Validators.minLength(3)]],
+      country: ['', [Validators.required, Validators.minLength(3)]],
+      phone: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]]
     });
   }
 
@@ -51,4 +60,36 @@ export class CheckoutComponent implements OnInit {
     this.cartCount = this.cart.reduce((count, product) => count + product.quantity, 0);
   }
 
+  get nameControl() {
+    return this.checkoutForm.get('name');
+  }
+
+  get emailControl() {
+    return this.checkoutForm.get('email');
+  }
+
+  get addressControl() {
+    return this.checkoutForm.get('address');
+  }
+
+  get postcodeControl() {
+    return this.checkoutForm.get('postcode');
+  }
+
+  get countryControl() {
+    return this.checkoutForm.get('country');
+  }
+
+  get phoneControl() {
+    return this.checkoutForm.get('phone');
+  }
+
+  validateForm() {
+    if (this.checkoutForm.invalid) {
+      this.checkoutForm.markAllAsTouched();
+      console.log('Form is invalid!');
+      return;
+    }
+    console.log('Form is valid!');
+  }
 }
