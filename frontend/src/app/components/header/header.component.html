@@ -33,6 +33,13 @@
 					<a class="nav-link fw-bolder" href="#clothes"><i class="fas fa-tshirt"></i> Clothes</a>
 				</li>
 			</ul>
+
+			<div>
+				<h6>Bienvenido, {{ currentUser?.displayName }}</h6>
+				<button (click)="logout()" class="btn btn-outline-light">Cerrar sesión</button>
+			</div>
+			  
+
 		</div>
 	</div>
 </nav>

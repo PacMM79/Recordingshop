@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CartService } from '../services/cart.service';
-import { ProductService } from '../services/product.service';
-import { Products } from '../interfaces/products';
+import { CartService } from '../../services/cart.service';
+import { ProductService } from '../../services/product.service';
+import { Products } from '../../interfaces/products';
 
 @Component({
   selector: 'app-home',
