@@ -45,7 +45,7 @@ export class AuthService {
     try {
       await signOut(this.auth);
       this.currentUserSubject.next(null);
-      this.router.navigate(['/login']);
+      this.router.navigate(['/home']);
     } catch (error) {
       console.error("Error during logout: ", error);
     }

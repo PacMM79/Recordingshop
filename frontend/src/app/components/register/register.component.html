@@ -1,5 +1,7 @@
 <div class="col-6 col-md-3 offset-3 offset-md-5 my-4">
-    <h2>Register</h2>
+    <h2>Welcome</h2>
+   <p>Sign up to Barcelona City Records</p>
+
     <form (ngSubmit)="register()">
       <div>
         <label for="name" class="form-label">Name</label>
@@ -13,9 +15,12 @@
         <label for="password" class="form-label mt-2">Password</label>
         <input type="password" id="password" [(ngModel)]="password" name="password" class="form-control" required>
       </div>
-      <button type="submit" class="btn btn-success my-4">Register</button>
+      <button type="submit" class="btn btn-success my-4">Continue</button>
     </form>
-    <p><i class="bi bi-info-circle"></i> Already registered? <a href="/login"> Login here.</a></p>
+    <p><i class="bi bi-info-circle"></i> Already have an account? <a href="/login"> Login here.</a></p>
 
+
+
+    
   </div>
   
