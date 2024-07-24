@@ -39,7 +39,6 @@ export class AuthService {
 
   async login(email: string, password: string) {
     try {
-      await this.setPersistence();
       const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
       this.currentUserSubject.next(userCredential.user);
       this.router.navigate(['/']);
