@@ -52,5 +52,11 @@ export class HeaderComponent implements OnInit {
     if (!this.currentUser) {
       this.login();
     }
+    else
+    this.myAccount();
+  }
+
+  myAccount() {
+    this.router.navigate(['/my-account']);
   }
 }

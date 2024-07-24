@@ -10,7 +10,7 @@
 			</button>
 			<ul class="navbar-nav me-3 me-lg-0 d-flex flex-row align-items-center">
 				<li class="dropdown search-dropdown nav-item py-lg-3">
-					<a href="javascript:void(0)" class="btn btn-outline-light flex-center" type="button"
+					<a href="javascript:void(0)" class="btn btn-outline-light flex-center rounded-end-5" type="button"
 						data-bs-toggle="modal" data-bs-target="#cartModal">
 						<i class="fas fa-shopping-cart me-1"></i> Cart <span
 							class="badge text-white ms-1 rounded-pill bg-primary">{{ cartCount }}</span>
@@ -37,21 +37,20 @@
 
 			  
 			<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-				<button type="button" class="btn btn-outline-light" (click)="handleButtonClick()">
+				<button type="button" class="btn btn-outline-light rounded-start-5" (click)="handleButtonClick()">
 				  {{ currentUser ? currentUser.displayName : 'Login' }}
 				</button>
 				<div class="btn-group" role="group">
 				  <button id="btnGroupDrop1" type="button" class="btn btn-outline-light dropdown-toggle me-2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 				  <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 					<a class="dropdown-item" *ngIf="!currentUser" (click)="register()">Register</a>
+					<a class="dropdown-item" *ngIf="currentUser" (click)="myAccount()">My Account</a>
 					<a class="dropdown-item" *ngIf="currentUser" (click)="logout()">Logout</a>
 				  </div>
 				</div>
 			  </div>
 			  
 			  
-			  
-
 		</div>
 	</div>
 </nav>
