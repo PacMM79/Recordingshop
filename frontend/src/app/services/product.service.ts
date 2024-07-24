@@ -24,7 +24,8 @@ export class ProductService {
       name: 'Pasta',
       price: 6.25,
       quantity: 1,
-      category: 'grocery'
+      category: 'grocery',
+      discountPercent: 10
     },
     {
       id: 3,

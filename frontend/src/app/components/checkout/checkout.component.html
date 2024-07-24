@@ -28,7 +28,12 @@
                     class="bi bi-dash"></i></button>
               </td>
 
-              <td>{{ (product.price * product.quantity * (1 - (product.discountPercent || 0) / 100)) | number:'1.2-2'  }} €</td>
+              <td>
+                {{ (product.price * product.quantity * (1 - (product.discountPercent || 0) / 100)) | number:'1.2-2'}} €
+                <span *ngIf="(product.discountPercent || (product.offer?.percent && product.quantity >= (product.offer?.number ?? 0)))" class="badge rounded-pill bg-success ms-2">
+                  Discount
+                </span>
+              </td>
 
             </tr>
           </tbody>
@@ -36,10 +41,10 @@
             <tr>
               <td colspan="3">Cart Totals:</td>
               <td>
-                <h6>Subtotal: {{ total | number:'1.2-2' }} €</h6>
-                <h6>With discount: {{ subtotal | number:'1.2-2' }} €</h6>
+                <h6 [ngClass]="{'text-decoration-line-through': hasDiscount}">Subtotal: {{ total | number:'1.2-2' }} €</h6>
+                <h6 *ngIf="hasDiscount">With discount: {{ subtotal | number:'1.2-2' }} €</h6>
                 <h6>Shipping: {{ SHIPPING_COST | number:'1.2-2'  }} €</h6>
-                <h3><b>Total:</b></h3> <h6>(Includes +21% Vat)</h6> <h3>{{ subtotal + SHIPPING_COST | number:'1.2-2' }} €</h3>
+                <h3 class="mb-0"><b>Total: {{ subtotal + SHIPPING_COST | number:'1.2-2' }} €</b></h3> <h6>(Includes +21% Vat)</h6>
               </td>
 
               
@@ -59,8 +64,8 @@
         <!--Checkout Form-->
         <form [formGroup]="checkoutForm" class="form" id="checkoutForm" (ngSubmit)="validateForm()" *ngIf="cart.length > 0;">
           <div class="card border-primary p-5 m-4">
-            <h3>Make an order</h3>
-            <h6>Billing & Shipping</h6>
+            <h2 class="text-center">Make an order</h2>
+            <h5>Billing & Shipping</h5>
             <div class="row">
               <div class="col-6 mt-3">
                 <label for="name" class="form-label">Name:</label>

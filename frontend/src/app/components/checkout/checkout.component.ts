@@ -20,13 +20,13 @@ export class CheckoutComponent implements OnInit {
   cartCount: number = 0;
   checkoutForm!: FormGroup;
   currentUser: any;
+  hasDiscount: boolean = false;
   readonly SHIPPING_COST = 10; // Valor fijo para los gastos de transporte
 
   constructor(
     private cartService: CartService,
     private fb: FormBuilder,
     private authService: AuthService,
-    private currencyPipe: CurrencyPipe // Inyección de CurrencyPipe
   ) {}
 
   ngOnInit(): void {
@@ -68,21 +68,25 @@ export class CheckoutComponent implements OnInit {
   }
 
   calculateTotal(): void {
+    this.hasDiscount = false; // Reinicia el estado de descuento
     this.subtotal = this.cart.reduce((acc, product) => {
       const discountPercent = (product.offer && product.quantity >= product.offer.number) ? product.offer.percent : (product.discountPercent || 0);
       const discount = discountPercent / 100;
       const discountedPrice = product.price * (1 - discount);
       const totalPrice = discountedPrice * product.quantity;
-  
+
+      if (discount > 0) {
+        this.hasDiscount = true; // Marca como verdadero si hay algún descuento aplicado
+      }
+
       console.log(`Product: ${product.name}, Price: ${product.price}, Quantity: ${product.quantity}, Discount: ${discountPercent}%, Discounted Price: ${discountedPrice}, Total Price: ${totalPrice}`);
-  
+
       return acc + totalPrice;
     }, 0);
-  
+
     this.total = parseFloat((this.subtotal + this.SHIPPING_COST).toFixed(2));
     console.log(`Subtotal: ${this.subtotal}, Shipping Cost: ${this.SHIPPING_COST}, Total: ${this.total}`);
   }
-  
 
   private updateCartCount(): void {
     this.cartCount = this.cart.reduce((count, product) => count + product.quantity, 0);
@@ -121,8 +125,4 @@ export class CheckoutComponent implements OnInit {
     console.log('Form is valid!');
   }
 
-  // Método para obtener el total formateado como moneda
-  get formattedTotal() {
-    return this.currencyPipe.transform(this.total, 'EUR'); // Cambia 'EUR' por la moneda que necesites
-  }
 }
