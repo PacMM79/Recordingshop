@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 import { Products } from '../../interfaces/products';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
@@ -10,20 +10,28 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.scss']
+  styleUrls: ['./checkout.component.scss'],
+  providers: [CurrencyPipe]
 })
 export class CheckoutComponent implements OnInit {
   cart: Products[] = [];
+  subtotal: number = 0;
   total: number = 0;
   cartCount: number = 0;
   checkoutForm!: FormGroup;
   currentUser: any;
+  readonly SHIPPING_COST = 10; // Valor fijo para los gastos de transporte
 
-
-  constructor(private cartService: CartService, private fb: FormBuilder, private authService: AuthService) {}
+  constructor(
+    private cartService: CartService,
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private currencyPipe: CurrencyPipe // Inyección de CurrencyPipe
+  ) {}
 
   ngOnInit(): void {
     this.cartService.getCart().subscribe(cart => {
+      console.log('Cart:', cart); // Verifica los valores aquí
       this.cart = cart;
       this.calculateTotal();
       this.updateCartCount();
@@ -60,8 +68,21 @@ export class CheckoutComponent implements OnInit {
   }
 
   calculateTotal(): void {
-    this.total = this.cart.reduce((acc, product) => acc + (product.price * product.quantity * (1 - (product.discountPercent || 0) / 100)), 0);
+    this.subtotal = this.cart.reduce((acc, product) => {
+      const discountPercent = (product.offer && product.quantity >= product.offer.number) ? product.offer.percent : (product.discountPercent || 0);
+      const discount = discountPercent / 100;
+      const discountedPrice = product.price * (1 - discount);
+      const totalPrice = discountedPrice * product.quantity;
+  
+      console.log(`Product: ${product.name}, Price: ${product.price}, Quantity: ${product.quantity}, Discount: ${discountPercent}%, Discounted Price: ${discountedPrice}, Total Price: ${totalPrice}`);
+  
+      return acc + totalPrice;
+    }, 0);
+  
+    this.total = parseFloat((this.subtotal + this.SHIPPING_COST).toFixed(2));
+    console.log(`Subtotal: ${this.subtotal}, Shipping Cost: ${this.SHIPPING_COST}, Total: ${this.total}`);
   }
+  
 
   private updateCartCount(): void {
     this.cartCount = this.cart.reduce((count, product) => count + product.quantity, 0);
@@ -98,5 +119,10 @@ export class CheckoutComponent implements OnInit {
       return;
     }
     console.log('Form is valid!');
+  }
+
+  // Método para obtener el total formateado como moneda
+  get formattedTotal() {
+    return this.currencyPipe.transform(this.total, 'EUR'); // Cambia 'EUR' por la moneda que necesites
   }
 }

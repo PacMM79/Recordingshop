@@ -18,7 +18,7 @@
           <tbody>
             <tr *ngFor="let product of cart">
               <td>{{ product.name }}</td>
-              <td>{{ product.price }} €</td>
+              <td>{{ product.price | number:'1.2-2'  }} €</td>
 
               <td>
                 <button (click)="buyProduct(product.id)" class="badge rounded-pill bg-secondary border-0"><i
@@ -28,7 +28,7 @@
                     class="bi bi-dash"></i></button>
               </td>
 
-              <td>{{ (product.price * product.quantity * (1 - (product.discountPercent || 0) / 100)) }} €</td>
+              <td>{{ (product.price * product.quantity * (1 - (product.discountPercent || 0) / 100)) | number:'1.2-2'  }} €</td>
 
             </tr>
           </tbody>
@@ -36,9 +36,10 @@
             <tr>
               <td colspan="3">Cart Totals:</td>
               <td>
-                <h6>Subtotal: {{ total }} €</h6>
-                <h6>Shipping: {{ SHIPPING_COST }} €</h6>
-                <h5><b>Total: <h6>(Includes +21% Vat)</h6> {{ total + SHIPPING_COST }} €</b></h5>
+                <h6>Subtotal: {{ total | number:'1.2-2' }} €</h6>
+                <h6>With discount: {{ subtotal | number:'1.2-2' }} €</h6>
+                <h6>Shipping: {{ SHIPPING_COST | number:'1.2-2'  }} €</h6>
+                <h3><b>Total:</b></h3> <h6>(Includes +21% Vat)</h6> <h3>{{ subtotal + SHIPPING_COST | number:'1.2-2' }} €</h3>
               </td>
 
               
