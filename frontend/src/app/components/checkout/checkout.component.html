@@ -3,7 +3,8 @@
 
 <!--Checkout table-->
 		  <div class="col-12 col-xxl-8 offset-xxl-2">
-        <h3>Hi! {{ currentUser.displayName }}</h3>
+        <div class="m-4">
+        <h3>Hi! {{ currentUser ? currentUser.displayName : '' }}</h3>
         <h4 class="">You have {{cartCount}} items in your cart</h4>
         <table *ngIf="cart.length > 0; else emptyCart" class="table table-hover fs-5">
           <thead>
@@ -38,18 +39,20 @@
               <td><b>{{ total | currency }}</b></td>
 
             </tr>
+            <button (click)="cleanCart()" class="btn btn-outline-danger mt-3">Clean Cart</button>
+
           </tfoot>
+
         </table>
-        
-          <button (click)="cleanCart()" class="btn btn-outline-danger">Clean Cart</button>
-        
         <ng-template #emptyCart>
-          <p class="mt-4">Your cart is empty.</p>
+          <p class="mt-4 text-center">Your cart is empty.</p>
         </ng-template>
+        
+      </div>
 
 
         <!--Checkout Form-->
-        <form [formGroup]="checkoutForm" class="form" id="checkoutForm" (ngSubmit)="validateForm()">
+        <form [formGroup]="checkoutForm" class="form" id="checkoutForm" (ngSubmit)="validateForm()" *ngIf="cart.length > 0;">
           <div class="card border-primary p-5 m-4">
             <h3>Make an order</h3>
             <h6>Billing & Shipping</h6>
@@ -119,6 +122,7 @@
         
 
 <!--Footer Banner-->
+<div class="m-5">
   <div class="row mr-0">
     <div class="col-sm-6">
       <h4 class="my-3 bord shadow text-center"><i class="fas fa-dollar-sign p-2"></i>Cash on Delivery</h4>
@@ -136,5 +140,6 @@
       <h4 class="my-3 bord shadow text-center"><i class="fas fa-stopwatch p-2"></i>Delivery on time</h4>
     </div>
   </div>
+</div>
 
 </div>
