@@ -34,10 +34,19 @@
 				</li>
 			</ul>
 
-			<div>
-				<span *ngIf="currentUser">Hi! {{ currentUser.displayName }}</span>
-				<button *ngIf="currentUser" (click)="logout()" class="btn btn-outline-light mx-2">Logout</button>
-				<button *ngIf="!currentUser" (click)="login()" class="btn btn-outline-light mx-2">Login</button>
+
+			  
+			<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+				<button type="button" class="btn btn-outline-light" (click)="handleButtonClick()">
+				  {{ currentUser ? currentUser.displayName : 'Login' }}
+				</button>
+				<div class="btn-group" role="group">
+				  <button id="btnGroupDrop1" type="button" class="btn btn-outline-light dropdown-toggle me-2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+				  <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+					<a class="dropdown-item" *ngIf="!currentUser" (click)="register()">Register</a>
+					<a class="dropdown-item" *ngIf="currentUser" (click)="logout()">Logout</a>
+				  </div>
+				</div>
 			  </div>
 			  
 			  

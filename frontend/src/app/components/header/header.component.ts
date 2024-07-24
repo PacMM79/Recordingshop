@@ -43,4 +43,14 @@ export class HeaderComponent implements OnInit {
   login() {
     this.router.navigate(['/login']);
   }
+
+  register() {
+    this.router.navigate(['/register']);
+  }
+
+  handleButtonClick() {
+    if (!this.currentUser) {
+      this.login();
+    }
+  }
 }
