@@ -1,26 +1,27 @@
-<div class="col-6 col-md-3 offset-3 offset-md-5 my-4">
-    <h2>Welcome</h2>
-   <p>Sign up to Barcelona City Records</p>
+<div class="col-6 col-md-4 offset-3 offset-md-4 my-4">
+  <h2 class="d-flex justify-content-center">Welcome</h2>
+  <p class="d-flex justify-content-center">Sign up to Barcelona City Records</p>
 
-    <form (ngSubmit)="register()">
-      <div>
-        <label for="name" class="form-label">Name</label>
-        <input type="text" id="name" [(ngModel)]="name" name="name" class="form-control" required>
-      </div>
-      <div>
-        <label for="email" class="form-label mt-2">Email</label>
-        <input type="email" id="email" [(ngModel)]="email" name="email" class="form-control" required>
-      </div>
-      <div>
-        <label for="password" class="form-label mt-2">Password</label>
-        <input type="password" id="password" [(ngModel)]="password" name="password" class="form-control" required>
-      </div>
-      <button type="submit" class="btn btn-success my-4">Continue</button>
-    </form>
-    <p><i class="bi bi-info-circle"></i> Already have an account? <a href="/login"> Login here.</a></p>
+  <form (ngSubmit)="register()">
+    <div>
+      <label for="name" class="form-label">Name</label>
+      <input type="text" id="name" [(ngModel)]="name" name="name" class="form-control" required>
+    </div>
+    <div>
+      <label for="email" class="form-label mt-2">Email</label>
+      <input type="email" id="email" [(ngModel)]="email" name="email" class="form-control" required>
+    </div>
+    <div>
+      <label for="password" class="form-label mt-2">Password</label>
+      <input type="password" id="password" [(ngModel)]="password" name="password" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success my-4">Continue</button>
+  </form>
+  <p class="d-flex justify-content-center"><i class="bi bi-info-circle me-2"></i> Already have an account? <a
+      href="/login" class="ms-2">Login here.</a></p>
 
-
-
-    
+  <div class="d-flex justify-content-center">
+    <button (click)="loginWithGoogle()" class="btn btn-outline-success my-4"><i class="bi bi-google me-2"></i> Iniciar
+      sesión con Google</button>
   </div>
-  
+</div>

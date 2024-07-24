@@ -20,4 +20,8 @@ export class RegisterComponent {
   register() {
     this.authService.register(this.name, this.email, this.password);
   }
+
+  loginWithGoogle() {
+    this.authService.loginWithGoogle();
+  }
 }

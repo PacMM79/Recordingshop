@@ -1,7 +1,7 @@
 <!-- login.component.html -->
-<div class="col-6 col-md-3 offset-3 offset-md-5 my-4">
-    <h2>Login</h2>
-    <p>Log in to Barcelona City Records to continue</p>
+<div class="card col-6 col-md-4 offset-3 offset-md-4 my-4">
+    <h2 class="d-flex justify-content-center">Log in</h2>
+    <p class="d-flex justify-content-center">Log in to Barcelona City Records</p>
 
     <form (ngSubmit)="login()">
       <div>
@@ -14,6 +14,12 @@
       </div>
       <button type="submit" class="btn btn-success my-4">Login</button>
     </form>
-    <p><i class="bi bi-info-circle"></i> Don't have an account? <a href="/register">Register here.</a></p>
+    <p class="d-flex justify-content-center"><i class="bi bi-info-circle me-2"></i> Don't have an account? <a href="/register" class="ms-2">Register here.</a></p>
+  
+    <div class="d-flex justify-content-center">
+      <button (click)="loginWithGoogle()" class="btn btn-outline-success my-4"><i class="bi bi-google me-2"></i> Iniciar
+        sesión con Google</button>
+    </div>
+  
   </div>
   
