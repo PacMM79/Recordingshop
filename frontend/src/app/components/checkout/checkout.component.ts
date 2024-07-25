@@ -4,6 +4,8 @@ import { CartService } from '../../services/cart.service';
 import { Products } from '../../interfaces/products';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { OrderService } from '../../services/order.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-checkout',
@@ -27,6 +29,8 @@ export class CheckoutComponent implements OnInit {
     private cartService: CartService,
     private fb: FormBuilder,
     private authService: AuthService,
+    private orderService: OrderService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -123,6 +127,24 @@ export class CheckoutComponent implements OnInit {
       return;
     }
     console.log('Form is valid!');
+    // Asegúrate de obtener los datos del formulario antes de pasar a placeOrder
+    const orderData = this.checkoutForm.value;
+    this.placeOrder(orderData);
   }
+  
+  placeOrder(orderData: any) {
+    console.log('Datos del pedido:', orderData); // Verificar los datos antes de enviar
+    this.http.post('https://barcelonacityrecords.franp.sg-host.com/API/orders.php', orderData)
+      .subscribe({
+        next: (response) => {
+          console.log('Order placed successfully', response);
+        },
+        error: (error) => {
+          console.error('Error placing order', error);
+        }
+      });
+  }
+  
+  
 
 }
