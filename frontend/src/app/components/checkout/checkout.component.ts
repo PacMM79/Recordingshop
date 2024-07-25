@@ -127,8 +127,11 @@ export class CheckoutComponent implements OnInit {
       return;
     }
     console.log('Form is valid!');
-    // Asegúrate de obtener los datos del formulario antes de pasar a placeOrder
-    const orderData = this.checkoutForm.value;
+    const orderData = {
+      ...this.checkoutForm.value,
+      cart: this.cart // Agregar el carrito a los datos del pedido
+    };
+    console.log('Datos del pedido:', orderData); // Verificar los datos antes de enviar
     this.placeOrder(orderData);
   }
   
