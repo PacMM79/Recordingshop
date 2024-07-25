@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { CartService } from '../../services/cart.service';
-import { Products } from '../../interfaces/products';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { OrderService } from '../../services/order.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth.service';
+import { Products } from '../../interfaces/products';
+
+declare var paypal: any;
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.scss'],
-  providers: [CurrencyPipe]
+  styleUrls: ['./checkout.component.scss']
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, AfterViewInit {
   cart: Products[] = [];
   subtotal: number = 0;
   total: number = 0;
@@ -23,19 +24,18 @@ export class CheckoutComponent implements OnInit {
   checkoutForm!: FormGroup;
   currentUser: any;
   hasDiscount: boolean = false;
-  readonly SHIPPING_COST = 10; // Valor fijo para los gastos de transporte
+  readonly SHIPPING_COST = 10;
 
   constructor(
     private cartService: CartService,
     private fb: FormBuilder,
     private authService: AuthService,
-    private orderService: OrderService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.cartService.getCart().subscribe(cart => {
-      console.log('Cart:', cart); // Verifica los valores aquí
       this.cart = cart;
       this.calculateTotal();
       this.updateCartCount();
@@ -54,9 +54,28 @@ export class CheckoutComponent implements OnInit {
       phone: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]]
     });
 
-    this.authService.currentUser.subscribe((user) => {
+    this.authService.currentUser.subscribe(user => {
       this.currentUser = user;
     });
+  }
+
+  ngAfterViewInit(): void {
+    paypal.Buttons({
+      createOrder: (data: any, actions: { order: { create: (arg0: { purchase_units: { amount: { value: number; }; }[]; }) => any; }; }) => {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: this.subtotal + this.SHIPPING_COST
+            }
+          }]
+        });
+      },
+      onApprove: (data: any, actions: { order: { capture: () => Promise<any>; }; }) => {
+        return actions.order.capture().then((details: any) => {
+          this.placeOrder();
+        });
+      }
+    }).render('#paypal-button-container');
   }
 
   cleanCart(): void {
@@ -72,7 +91,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   calculateTotal(): void {
-    this.hasDiscount = false; // Reinicia el estado de descuento
+    this.hasDiscount = false;
     this.subtotal = this.cart.reduce((acc, product) => {
       const discountPercent = (product.offer && product.quantity >= product.offer.number) ? product.offer.percent : (product.discountPercent || 0);
       const discount = discountPercent / 100;
@@ -80,16 +99,13 @@ export class CheckoutComponent implements OnInit {
       const totalPrice = discountedPrice * product.quantity;
 
       if (discount > 0) {
-        this.hasDiscount = true; // Marca como verdadero si hay algún descuento aplicado
+        this.hasDiscount = true;
       }
-
-      console.log(`Product: ${product.name}, Price: ${product.price}, Quantity: ${product.quantity}, Discount: ${discountPercent}%, Discounted Price: ${discountedPrice}, Total Price: ${totalPrice}`);
 
       return acc + totalPrice;
     }, 0);
 
     this.total = parseFloat((this.subtotal + this.SHIPPING_COST).toFixed(2));
-    console.log(`Subtotal: ${this.subtotal}, Shipping Cost: ${this.SHIPPING_COST}, Total: ${this.total}`);
   }
 
   private updateCartCount(): void {
@@ -123,31 +139,26 @@ export class CheckoutComponent implements OnInit {
   validateForm() {
     if (this.checkoutForm.invalid) {
       this.checkoutForm.markAllAsTouched();
-      console.log('Form is invalid!');
       return;
     }
-    console.log('Form is valid!');
     const orderData = {
       ...this.checkoutForm.value,
-      cart: this.cart // Agregar el carrito a los datos del pedido
+      cart: this.cart
     };
-    console.log('Datos del pedido:', orderData); // Verificar los datos antes de enviar
     this.placeOrder(orderData);
   }
-  
-  placeOrder(orderData: any) {
-    console.log('Datos del pedido:', orderData); // Verificar los datos antes de enviar
-    this.http.post('https://barcelonacityrecords.franp.sg-host.com/API/orders.php', orderData)
+
+  placeOrder(orderData?: any) {
+    const data = orderData || this.checkoutForm.value;
+    this.http.post('https://barcelonacityrecords.franp.sg-host.com/API/orders.php', data)
       .subscribe({
-        next: (response) => {
+        next: response => {
           console.log('Order placed successfully', response);
+          this.router.navigate(['/order-success']);
         },
-        error: (error) => {
+        error: error => {
           console.error('Error placing order', error);
         }
       });
   }
-  
-  
-
 }
