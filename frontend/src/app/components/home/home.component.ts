@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
-import { ProductService } from '../../services/product.service';
-import { Products } from '../../interfaces/products';
+import { DiscogsService } from '../../services/discogs.service';
+
 
 @Component({
   selector: 'app-home',
@@ -12,13 +12,22 @@ import { Products } from '../../interfaces/products';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  products: Products[] = [];
+  products: any[] = [];
 
-  constructor(private cartService: CartService, private productService: ProductService) {}
+  constructor(private cartService: CartService, private discogsService: DiscogsService) {}
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe(products => {
-      this.products = products;
+    console.log('Fetching inventory...');
+    this.discogsService.getInventory().subscribe({
+      next: data => {
+        this.products = data;
+      },
+      error: error => {
+        console.error('Error fetching inventory:', error);
+      },
+      complete: () => {
+        console.log('Inventory fetch complete');
+      }
     });
   }
 

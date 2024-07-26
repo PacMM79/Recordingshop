@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
-import { Products } from '../../interfaces/products';
+import { Products } from '../../interfaces/products-interface';
 
 declare var paypal: any;
 
