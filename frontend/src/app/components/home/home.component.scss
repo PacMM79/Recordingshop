@@ -1,0 +1,8 @@
+.success-alert {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000; /* Asegúrate de que el mensaje esté en la parte superior */
+    width: 300px; /* Ajusta el ancho según tus necesidades */
+  }
+  

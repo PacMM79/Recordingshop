@@ -11,7 +11,9 @@
           </div>
         </div>
       </div>
-      <!-- Productos -->
+
+
+      <!-- List Productos -->
   <div class="container px-4 px-lg-5 mt-5">
     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 justify-content-center">
       <div class="col mb-5" *ngFor="let product of products">
@@ -33,3 +35,10 @@
     </div>
   </div>
 </section>
+
+      <!-- Mensaje de éxito -->
+      <div *ngIf="showAlert" class="success-alert alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" (click)="showAlert = false"></button>
+        <strong>Well done!</strong> You successfully added "{{ addedProductTitle }}" to the cart.
+      </div>
+    
