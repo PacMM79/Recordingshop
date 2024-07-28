@@ -24,13 +24,16 @@
                 <i class="bi bi-plus"></i>
               </button>
               {{ product.quantity }}
-              <button (click)="removeFromCart(product.id)" class="badge rounded-pill bg-secondary border-0 align-text-top">
+              <button (click)="removeFromCart(product.id)"
+                class="badge rounded-pill bg-secondary border-0 align-text-top">
                 <i class="bi bi-dash"></i>
               </button>
             </td>
             <td>
               {{ (product.price * product.quantity * (1 - (product.discountPercent || 0) / 100)) | number:'1.2-2' }} €
-              <span *ngIf="(product.discountPercent || (product.offer?.percent && product.quantity >= (product.offer?.number ?? 0)))" class="badge rounded-pill bg-success ms-2 align-text-top">
+              <span
+                *ngIf="(product.discountPercent || (product.offer?.percent && product.quantity >= (product.offer?.number ?? 0)))"
+                class="badge rounded-pill bg-success ms-2 align-text-top">
                 Discount {{ product.discountPercent }}%
               </span>
             </td>
@@ -40,7 +43,8 @@
           <tr>
             <td colspan="3">Cart Totals:</td>
             <td>
-              <h6 [ngClass]="{'text-decoration-line-through': hasDiscount}">Subtotal: {{ total | number:'1.2-2' }} €</h6>
+              <h6 [ngClass]="{'text-decoration-line-through': hasDiscount}">Subtotal: {{ total | number:'1.2-2' }} €
+              </h6>
               <h6 *ngIf="hasDiscount">With discount: {{ subtotal | number:'1.2-2' }} €</h6>
               <h6>Shipping: {{ SHIPPING_COST | number:'1.2-2' }} €</h6>
               <h3 class="mb-0"><b>Total: {{ subtotal + SHIPPING_COST | number:'1.2-2' }} €</b></h3>
@@ -55,13 +59,93 @@
       </ng-template>
     </div>
 
-    <!-- PayPal Button Container -->
-    <div *ngIf="cart.length > 0;" class="card border-primary bg-custom p-5 m-4">
+    <!--Checkout Form-->
+    <form [formGroup]="checkoutForm" class="form" id="checkoutForm" (ngSubmit)="validateForm()"
+      *ngIf="cart.length > 0;">
+      <div class="card border-primary p-5 m-4">
+        <h2 class="text-center">Make an order</h2>
+        <h5>Your Shipping Details</h5>
+        <div class="row">
+          <div class="col-6 mt-3">
+            <label for="name" class="form-label">Name:</label>
+            <input id="name" formControlName="name" class="form-control ml-3" type="text" placeholder="Name" />
+            <div *ngIf="nameControl?.invalid && (nameControl?.dirty || nameControl?.touched)"
+              class="invalid-feedback d-block">
+              <div *ngIf="nameControl?.errors?.['required']">This field is required.</div>
+              <div *ngIf="nameControl?.errors?.['minlength']">This field must have at least 3 characters.</div>
+            </div>
+          </div>
+          <div class="col-6 mt-3">
+            <label for="email" class="form-label">Email:</label>
+            <input id="email" formControlName="email" class="form-control ml-3" type="email" placeholder="Email" />
+            <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)"
+              class="invalid-feedback d-block">
+              <div *ngIf="emailControl?.errors?.['required']">This field is required.</div>
+              <div *ngIf="emailControl?.errors?.['email']">This field must contain a valid email address.</div>
+              <div *ngIf="emailControl?.errors?.['minlength']">This field must have at least 3 characters.</div>
+            </div>
+          </div>
+          <div class="col-6 mt-3">
+            <label for="address" class="form-label">Address:</label>
+            <input id="address" formControlName="address" class="form-control" type="text" placeholder="Address" />
+            <div *ngIf="addressControl?.invalid && (addressControl?.dirty || addressControl?.touched)"
+              class="invalid-feedback d-block">
+              <div *ngIf="addressControl?.errors?.['required']">This field is required.</div>
+              <div *ngIf="addressControl?.errors?.['minlength']">This field must have at least 3 characters.</div>
+            </div>
+          </div>
+          <div class="col-6 mt-3">
+            <label for="postcode" class="form-label">Postcode / ZIP:</label>
+            <input id="postcode" formControlName="postcode" class="form-control" type="text"
+              placeholder="Postcode / ZIP" />
+            <div *ngIf="postcodeControl?.invalid && (postcodeControl?.dirty || postcodeControl?.touched)"
+              class="invalid-feedback d-block">
+              <div *ngIf="postcodeControl?.errors?.['required']">This field is required.</div>
+              <div *ngIf="postcodeControl?.errors?.['minlength']">This field must have at least 3 characters.</div>
+            </div>
+          </div>
+          <div class="col-6 mt-3">
+            <label for="country" class="form-label">Country:</label>
+            <input id="country" formControlName="country" class="form-control" type="text" placeholder="Country" />
+            <div *ngIf="countryControl?.invalid && (countryControl?.dirty || countryControl?.touched)"
+              class="invalid-feedback d-block">
+              <div *ngIf="countryControl?.errors?.['required']">This field is required.</div>
+              <div *ngIf="countryControl?.errors?.['minlength']">This field must have at least 3 characters.</div>
+            </div>
+          </div>
+          <div class="col-6 mt-3">
+            <label for="phone" class="form-label">Phone Number:</label>
+            <input id="phone" formControlName="phone" class="form-control" type="tel" placeholder="Phone No." />
+            <div *ngIf="phoneControl?.invalid && (phoneControl?.dirty || phoneControl?.touched)"
+              class="invalid-feedback d-block">
+              <div *ngIf="phoneControl?.errors?.['required']">This field is required.</div>
+              <div *ngIf="phoneControl?.errors?.['pattern']">Invalid phone number! Must be 9 digits with no letters.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 mt-4 final">
+          <div class="form-check form-switch mb-4">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
+            <label class="form-check-label" for="flexSwitchCheckChecked">Create an account?</label>
+          </div>
+          <button type="submit" class="p-2 px-4 btn btn-primary shadow-lg" [disabled]="checkoutForm.invalid">
+            <i class="fas fa-cart-arrow-down p-2"></i>Place Test Order
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+  <!-- PayPal Button Container -->
+  <div class="row offset-2">
+    <div *ngIf="cart.length > 0;" class="card col-9 align-content-center border-primary bg-custom p-5 m-4 text-center">
       <h2 class="text-center">Make an order</h2>
       <h5>Billing & Shipping</h5>
-    <div id="paypal-button-container" class="mt-3"></div>
+      <div id="paypal-button-container" class="mt-3"></div>
     </div>
-
+  </div>
   <!-- Footer Banner -->
   <div class="m-5">
     <div class="row mr-0">
@@ -83,11 +167,12 @@
   </div>
 </div>
 
-<script src="https://www.paypal.com/sdk/js?client-id=AUH3SbAg97zV5oIYqtkwAEmJ9nE6cPubv688rxDO56F6tiFToiALjDLIFBWjHu9-4m3PFcykXyNKCFNk&currency=EUR"></script>
+<script
+  src="https://www.paypal.com/sdk/js?client-id=AUH3SbAg97zV5oIYqtkwAEmJ9nE6cPubv688rxDO56F6tiFToiALjDLIFBWjHu9-4m3PFcykXyNKCFNk&currency=EUR"></script>
 
 <script>
   paypal.Buttons({
-    createOrder: function(data, actions) {
+    createOrder: function (data, actions) {
       return actions.order.create({
         purchase_units: [{
           amount: {
@@ -96,8 +181,8 @@
         }]
       });
     },
-    onApprove: function(data, actions) {
-      return actions.order.capture().then(function(details) {
+    onApprove: function (data, actions) {
+      return actions.order.capture().then(function (details) {
         // Call your server to save the transaction
         fetch('/your-server-endpoint', {
           method: 'post',
@@ -118,7 +203,7 @@
               phone: details.payer.phone.phone_number.national_number
             }
           })
-        }).then(function(response) {
+        }).then(function (response) {
           // Redirect to the order confirmation page
           window.location.href = '/order-confirmation';
         });

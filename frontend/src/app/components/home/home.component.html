@@ -7,7 +7,7 @@
           <div class="card-body p-2">
             <div class="text-center">
               <h5 class="fw-bolder">{{ product.release.title }}</h5>
-              <p>{{ product.price.value }} €</p>
+              <p>{{ product.price.value | number:'1.2-2' }} €</p>
             </div>
           </div>
           <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">

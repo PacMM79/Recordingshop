@@ -10,13 +10,12 @@ export class CartService {
   private cart: Products[] = this.loadCart();
   private total: number = this.calculateTotal();
 
-  // Subjects to update the cart state
   cartSubject: BehaviorSubject<Products[]> = new BehaviorSubject<Products[]>(this.cart);
   totalSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.total);
 
   constructor() {}
 
-  buy(id: number, products: Products[]): void {
+  buy(id: number, products: any[]): void {
     const buyProduct = products.find((product) => product.id === id);
 
     if (buyProduct) {
@@ -25,7 +24,14 @@ export class CartService {
       if (existProduct) {
         existProduct.quantity++;
       } else {
-        const newProduct = { ...buyProduct, quantity: 1 };
+        const newProduct: Products = {
+          id: buyProduct.id,
+          name: buyProduct.release.title,
+          price: buyProduct.price.value,
+          thumbnail: buyProduct.release.thumbnail,
+          quantity: 1,
+          currency: buyProduct.price.currency // Asegúrate de incluir la moneda
+        };
         this.cart.push(newProduct);
       }
 
