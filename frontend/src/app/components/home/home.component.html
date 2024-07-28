@@ -12,18 +12,44 @@
         </div>
       </div>
 
+<!-- Search and Sort -->
+<div class="container px-4 px-lg-5 mt-4">
+  <div class="d-flex justify-content-end flex-wrap">
+    <div class="col-md-4">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Buscar por título..." [(ngModel)]="searchQuery">
+        <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">Buscar</button>
+      </div>
+      
+      <select class="form-select mb-3" [(ngModel)]="sortBy" (change)="onSortChange()">
+        <option value="">Ordenar por</option>
+        <option value="listed">Fecha listado</option>
+        <option value="price">Precio</option>
+        <option value="item">Título</option>
+        <option value="artist">Artista</option>
+      </select>
+      
+      <select class="form-select" [(ngModel)]="sortOrder" (change)="onSortChange()">
+        <option value="asc">Ascendente</option>
+        <option value="desc">Descendente</option>
+      </select>
+    </div>
+  </div>
+</div>
 
 
       <!-- List Productos -->
   <div class="container px-4 px-lg-5 mt-4">
     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 justify-content-center">
-      <div class="col mb-5" *ngFor="let product of products">
+      <div class="col mb-5" *ngFor="let product of filteredProducts">
         <div class="card h-100">
           <img class="card-img-top" [src]="product.release.thumbnail || 'assets/images/curtis.jpg'" [alt]="product.release.title" />
           <div class="card-body p-2">
-            <div class="text-center">
-              <h5 class="fw-bolder">{{ product.release.title }}</h5>
-              <p>{{ product.price.value | number:'1.2-2' }} €</p>
+            <div class="text-left">
+              <h5 class="fw-bolder">{{ product.release.artist }}</h5>
+              <h6 class="fw-bolder">{{ product.release.title }}</h6>
+              
+              <p>Price: {{ product.price.value | number:'1.2-2' }} €</p>
             </div>
           </div>
           <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">

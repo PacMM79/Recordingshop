@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { DiscogsService } from '../../services/discogs.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   products: any[] = [];
+  filteredProducts: any[] = [];
   loading = true;
   progress = 0;
   showAlert = false;
@@ -19,6 +21,9 @@ export class HomeComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number = 1;
   pagesPerGroup: number = 5;
+  searchQuery: string = '';
+  sortBy: string = '';
+  sortOrder: string = 'asc';
 
   constructor(private cartService: CartService, private discogsService: DiscogsService) {}
 
@@ -37,9 +42,17 @@ export class HomeComponent implements OnInit {
   loadPage(page: number): void {
     this.loading = true;
     console.log('Fetching inventory for page', page);
-    this.discogsService.getInventory(page).subscribe({
+  
+    const searchParams = {
+      status: 'for sale',
+      sort: this.sortBy,
+      sortOrder: this.sortOrder
+    };
+  
+    this.discogsService.getInventory(page, 20, searchParams).subscribe({
       next: (data: any) => {
         this.products = data.listings;
+        this.filteredProducts = this.filterProducts(this.products);
         this.totalPages = data.pagination.pages;
         this.loading = false;
         this.currentPage = page;
@@ -53,6 +66,25 @@ export class HomeComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+  
+  
+
+  filterProducts(products: any[]): any[] {
+    return products.filter(product => {
+      const matchesSearch = product.release.title.toLowerCase().includes(this.searchQuery.toLowerCase());
+      return matchesSearch;
+    });
+  }
+  
+  onSearch(): void {
+    this.filteredProducts = this.filterProducts(this.products);
+  }
+  
+  
+
+  onSortChange(): void {
+    this.loadPage(this.currentPage);
   }
 
   nextPage(): void {
@@ -83,7 +115,7 @@ export class HomeComponent implements OnInit {
       this.cartService.buy(id, this.products);
       this.addedProductTitle = product.release.title;
       this.showAlert = true;
-      
+
       setTimeout(() => {
         this.showAlert = false;
       }, 5000);
@@ -99,4 +131,5 @@ export class HomeComponent implements OnInit {
     }
     return pages;
   }
+  
 }
