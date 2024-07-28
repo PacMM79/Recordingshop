@@ -13,16 +13,16 @@
       </div>
 
 <!-- Search and Sort -->
-<div class="container px-4 px-lg-5 mt-5">
-  <div class="d-flex justify-content-end flex-wrap mx-2">
+<div class="container px-4 px-lg-5 mt-4">
+  <div class="d-flex justify-content-center flex-wrap">
 
-    <div class="col-4 mx-2">
+    <div class="col-6 col-md-4 me-4">
       <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Buscar por título..." [(ngModel)]="searchQuery">
         <button class="btn btn-primary" type="button" (click)="onSearch()">Buscar</button>
       </div></div>
 
-      <div class="col-2 mx-2">
+      <div class="col-4 col-md-2 me-2">
       <select class="form-select mb-3" [(ngModel)]="sortBy" (change)="onSortChange()">
         <option value="">Ordenar por</option>
         <option value="listed">Fecha listado</option>
@@ -32,7 +32,7 @@
       </select>
       </div>
 
-      <div class="col-2">
+      <div class="col-4 col-md-2">
       <select class="form-select" [(ngModel)]="sortOrder" (change)="onSortChange()">
         <option value="asc">Ascendente</option>
         <option value="desc">Descendente</option>

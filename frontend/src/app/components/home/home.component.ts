@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
       sortOrder: this.sortOrder
     };
   
-    this.discogsService.getInventory(page, 20, searchParams).subscribe({
+    this.discogsService.getInventory(page, 48, searchParams).subscribe({
       next: (data: any) => {
         this.products = data.listings;
         this.filteredProducts = this.filterProducts(this.products);
@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit {
 
   filterProducts(products: any[]): any[] {
     return products.filter(product => {
-      const matchesSearch = product.release.title.toLowerCase().includes(this.searchQuery.toLowerCase());
+      const matchesSearch = product.release.artist.toLowerCase().includes(this.searchQuery.toLowerCase());
       return matchesSearch;
     });
   }
