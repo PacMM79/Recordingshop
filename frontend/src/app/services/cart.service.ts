@@ -27,6 +27,7 @@ export class CartService {
         const newProduct: Products = {
           id: buyProduct.id,
           name: buyProduct.release.title,
+          artist: buyProduct.release.artist,
           price: buyProduct.price.value,
           thumbnail: buyProduct.release.thumbnail,
           quantity: 1,

@@ -1,6 +1,7 @@
 export interface Products {
   id: number;
   name: string;
+  artist: string;
   price: number; // Asegúrate de que price sea un número
   thumbnail: string;
   quantity: number;

@@ -7,21 +7,23 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<h3 class="text-center bill pb-3">Shopping Cart</h3>
+				<h2 class="text-center bill pb-3">Shopping Cart</h2>
 				<div>
-					<table *ngIf="cart.length > 0; else emptyCart" class="table">
+					<table *ngIf="cart.length > 0; else emptyCart" class="table table-hover">
 						<thead>
 							<tr>
-								<th>Name</th>
-								<th>Price</th>
-								<th>Quantity</th>
-								<th>Total</th>
+								<th><h4>Artist</h4></th>
+								<th><h4>Release</h4></th>
+								<th><h4>Price</h4></th>
+								<th><h4>Quantity</h4></th>
+								<th><h4>Total</h4></th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr *ngFor="let product of cart">
-								<td>{{ product.name }}</td>
-								<td>{{ product.price | number:'1.2-2' }} €</td>
+							<tr *ngFor="let product of cart" class="align-text-top">
+								<td><h6>{{ product.artist }}</h6></td>
+								<td><h6>{{ product.name }}</h6></td>
+								<td><h6>{{ product.price | number:'1.2-2' }} €</h6></td>
 
 								<td>
 									<button (click)="buyProduct(product.id)" class="badge rounded-pill bg-secondary border-0 align-text-top">
@@ -43,12 +45,12 @@
 							  </tbody>
 							  <tfoot>
 								<tr>
-								  <td colspan="3">Cart Totals:</td>
+								  <td colspan="4"><h4>Cart Totals:</h4></td>
 								  <td>
 									<h6 [ngClass]="{'text-decoration-line-through': hasDiscount}">Subtotal: {{ total | number:'1.2-2' }} €</h6>
 									<h6 *ngIf="hasDiscount">With discount: {{ subtotal | number:'1.2-2' }} €</h6>
 									<h6>Shipping: {{ SHIPPING_COST | number:'1.2-2' }} €</h6>
-									<h3 class="mb-0"><b>Total: {{ subtotal + SHIPPING_COST | number:'1.2-2' }} €</b></h3>
+									<h5 class="mb-0"><b>Total: {{ subtotal + SHIPPING_COST | number:'1.2-2' }} €</b></h5>
 									<h6>(Includes +21% Vat)</h6>
 								  </td>
 								</tr>

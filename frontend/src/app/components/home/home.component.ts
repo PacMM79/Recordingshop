@@ -113,7 +113,7 @@ export class HomeComponent implements OnInit {
     const product = this.products.find(product => product.id === id);
     if (product) {
       this.cartService.buy(id, this.products);
-      this.addedProductTitle = product.release.title;
+      this.addedProductTitle = product.release.artist + ' - ' + product.release.title;
       this.showAlert = true;
 
       setTimeout(() => {
