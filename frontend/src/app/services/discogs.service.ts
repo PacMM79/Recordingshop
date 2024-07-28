@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -7,13 +7,17 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class DiscogsService {
-  private apiUrl = 'https://api.discogs.com/users/BarcelonaCityRecord/inventory?&per_page=20';
+  private apiUrl = 'https://api.discogs.com/users/BarcelonaCityRecord/inventory';
 
   constructor(private http: HttpClient) { }
 
-  getInventory(): Observable<any[]> {
-    return this.http.get<any>(this.apiUrl).pipe(
-      map(response => response.listings || []) // Asegúrate de que estamos accediendo a 'listings'
+  getInventory(page: number, perPage: number = 20): Observable<any> {
+    const url = `${this.apiUrl}?per_page=${perPage}&page=${page}`;
+    return this.http.get<any>(url).pipe(
+      map(response => ({
+        listings: response.listings || [],
+        pagination: response.pagination
+      }))
     );
   }
 }

@@ -1,4 +1,4 @@
-<section class="pb-5" id="products">
+<section id="products">
       <!-- Barra de progreso -->
       <div *ngIf="loading" class="col-12 mb-5">
         <div class="progress">
@@ -13,8 +13,9 @@
       </div>
 
 
+
       <!-- List Productos -->
-  <div class="container px-4 px-lg-5 mt-5">
+  <div class="container px-4 px-lg-5 mt-4">
     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 justify-content-center">
       <div class="col mb-5" *ngFor="let product of products">
         <div class="card h-100">
@@ -35,6 +36,32 @@
     </div>
   </div>
 </section>
+
+<!--Pagination-->
+<div class="d-flex justify-content-center flex-wrap mt-4">
+  <div>
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" href="#" (click)="firstPageGroup(); $event.preventDefault()">First</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" href="#" (click)="prevPage(); $event.preventDefault()">&laquo;</a>
+      </li>
+      <li *ngFor="let page of getPagesToShow()" class="page-item" [class.active]="currentPage === page">
+        <a class="page-link" href="#" (click)="loadPage(page); $event.preventDefault()">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" href="#" (click)="nextPage(); $event.preventDefault()">&raquo;</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" href="#" (click)="lastPageGroup(); $event.preventDefault()">Last</a>
+      </li>
+    </ul>
+    <div class="d-flex justify-content-center flex-wrap">
+      <p>Página {{ currentPage }} de {{ totalPages }}</p>
+    </div>
+  </div>
+</div>
 
       <!-- Mensaje de éxito -->
       <div *ngIf="showAlert" class="success-alert alert alert-dismissible alert-success">

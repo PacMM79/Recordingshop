@@ -15,28 +15,16 @@ export class HomeComponent implements OnInit {
   loading = true;
   progress = 0;
   showAlert = false;
-  addedProductTitle: string = ''; // Mantén el título del producto añadido
+  addedProductTitle: string = '';
+  currentPage: number = 1;
+  totalPages: number = 1;
+  pagesPerGroup: number = 5;
 
   constructor(private cartService: CartService, private discogsService: DiscogsService) {}
 
   ngOnInit(): void {
-    console.log('Fetching inventory...');
-    this.discogsService.getInventory().subscribe({
-      next: (data: any[]) => {
-        this.products = data;
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error fetching inventory:', error);
-        this.loading = false;
-      },
-      complete: () => {
-        console.log('Inventory fetch complete');
-        this.loading = false;
-      }
-    });
+    this.loadPage(this.currentPage);
 
-    // Simula el progreso de carga
     const interval = setInterval(() => {
       if (this.progress < 100) {
         this.progress += 10;
@@ -46,17 +34,69 @@ export class HomeComponent implements OnInit {
     }, 100);
   }
 
+  loadPage(page: number): void {
+    this.loading = true;
+    console.log('Fetching inventory for page', page);
+    this.discogsService.getInventory(page).subscribe({
+      next: (data: any) => {
+        this.products = data.listings;
+        this.totalPages = data.pagination.pages;
+        this.loading = false;
+        this.currentPage = page;
+      },
+      error: (error) => {
+        console.error('Error fetching inventory:', error);
+        this.loading = false;
+      },
+      complete: () => {
+        console.log('Inventory fetch complete for page', page);
+        this.loading = false;
+      }
+    });
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.loadPage(this.currentPage + 1);
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.loadPage(this.currentPage - 1);
+    }
+  }
+
+  firstPageGroup(): void {
+    const startPage = 1;
+    this.loadPage(startPage);
+  }
+
+  lastPageGroup(): void {
+    const lastGroupFirstPage = Math.floor((this.totalPages - 1) / this.pagesPerGroup) * this.pagesPerGroup + 1;
+    this.loadPage(lastGroupFirstPage);
+  }
+
   buyProduct(id: number): void {
     const product = this.products.find(product => product.id === id);
     if (product) {
       this.cartService.buy(id, this.products);
-      this.addedProductTitle = product.release.title; // Guarda el título del producto añadido
+      this.addedProductTitle = product.release.title;
       this.showAlert = true;
       
-      // Oculta la alerta después de 3 segundos
       setTimeout(() => {
         this.showAlert = false;
       }, 5000);
     }
+  }
+
+  getPagesToShow(): number[] {
+    const startPage = Math.floor((this.currentPage - 1) / this.pagesPerGroup) * this.pagesPerGroup + 1;
+    const endPage = Math.min(startPage + this.pagesPerGroup - 1, this.totalPages);
+    const pages: number[] = [];
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 }
