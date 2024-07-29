@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
       sortOrder: this.sortOrder
     };
   
-    this.discogsService.getInventory(page, 48, searchParams).subscribe({
+    this.discogsService.getInventory(page, 20, searchParams).subscribe({
       next: (data: any) => {
         this.products = data.listings;
         this.filteredProducts = this.filterProducts(this.products);

@@ -1,79 +1,73 @@
 <section id="products">
-      <!-- Barra de progreso -->
-      <div *ngIf="loading" class="col-12 mb-5">
-        <div class="progress">
-          <div class="progress-bar progress-bar-striped progress-bar-animated mt-0" 
-               role="progressbar" 
-               [style.width.%]="progress" 
-               [attr.aria-valuenow]="progress" 
-               aria-valuemin="0" 
-               aria-valuemax="100">
-          </div>
+  <!-- Barra de progreso -->
+  <div *ngIf="loading" class="col-12 mb-5">
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated mt-0" role="progressbar"
+        [style.width.%]="progress" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100">
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Sort -->
+  <div class="container px-4 px-lg-5 mt-4">
+    <div class="d-flex justify-content-center flex-wrap">
+
+      <div class="col-6 col-md-4 me-4">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Buscar por título..." [(ngModel)]="searchQuery">
+          <button class="btn btn-primary" type="button" (click)="onSearch()">Buscar</button>
         </div>
       </div>
 
-<!-- Search and Sort -->
-<div class="container px-4 px-lg-5 mt-4">
-  <div class="d-flex justify-content-center flex-wrap">
-
-    <div class="col-6 col-md-4 me-4">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Buscar por título..." [(ngModel)]="searchQuery">
-        <button class="btn btn-primary" type="button" (click)="onSearch()">Buscar</button>
-      </div></div>
-
       <div class="col-4 col-md-2 me-2">
-      <select class="form-select mb-3" [(ngModel)]="sortBy" (change)="onSortChange()">
-        <option value="">Ordenar por</option>
-        <option value="listed">Fecha listado</option>
-        <option value="price">Precio</option>
-        <option value="item">Título</option>
-        <option value="artist">Artista</option>
-      </select>
+        <select class="form-select mb-3" [(ngModel)]="sortBy" (change)="onSortChange()">
+          <option value="">Ordenar por</option>
+          <option value="listed">Fecha listado</option>
+          <option value="price">Precio</option>
+          <option value="item">Título</option>
+          <option value="artist">Artista</option>
+        </select>
       </div>
 
       <div class="col-4 col-md-2">
-      <select class="form-select" [(ngModel)]="sortOrder" (change)="onSortChange()">
-        <option value="asc">Ascendente</option>
-        <option value="desc">Descendente</option>
-      </select></div>
+        <select class="form-select" [(ngModel)]="sortOrder" (change)="onSortChange()">
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
+        </select>
+      </div>
     </div>
   </div>
 
+  <!-- List Productos -->
+  <div class="container px-4 px-lg-5 mt-4">
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 justify-content-center">
+      <div class="col mb-5" *ngFor="let product of filteredProducts">
+        <div class="card h-100">
+          <a [routerLink]="['/listing', product.resource_url]">
+            <img class="card-img-top" [src]="product.release.thumbnail || 'assets/images/curtis.jpg'"
+              [alt]="product.release.title" /></a>
+          <div class="card-body">
+            <h5 class="fw-bolder card-title">{{ product.release.artist }}</h5>
+            <h6 class="fw-bolder card-text">{{ product.release.title }}</h6>
+          </div>
 
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Format:</b> {{ product.release.format }}</li>
+            <li class="list-group-item"><b>Label:</b> {{ product.release.label }}</li>
+            <li class="list-group-item"><b>Price:</b> {{ product.price.value | number:'1.2-2' }} €</li>
+            <li class="list-group-item"><a [routerLink]="['/listing', product.resource_url]">Details</a></li>
+          </ul>
 
-
-<!-- List Productos -->
-<div class="container px-4 px-lg-5 mt-4">
-  <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 justify-content-center">
-    <div class="col mb-5" *ngFor="let product of filteredProducts">
-      <div class="card h-100">
-        <a [routerLink]="['/listing', product.resource_url]">
-        <img class="card-img-top" [src]="product.release.thumbnail || 'assets/images/curtis.jpg'"
-          [alt]="product.release.title" /></a>
-        <div class="card-body">
-          <h5 class="fw-bolder card-title">{{ product.release.artist }}</h5>
-          <h6 class="fw-bolder card-text">{{ product.release.title }}</h6>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><b>Format:</b> {{ product.release.format }}</li>
-          <li class="list-group-item"><b>Label:</b> {{ product.release.label }}</li>
-          <li class="list-group-item"><b>Price:</b> {{ product.price.value | number:'1.2-2' }} €</li>
-          <li class="list-group-item"><a [routerLink]="['/listing', product.resource_url]">Details</a></li>
-        </ul>
-
-        <div class="card-footer p-3 border-top-0 bg-transparent">
-          <div class="text-center">
-            <button (click)="buyProduct(product.id)" class="btn btn-primary">Add to Cart</button>
+          <div class="card-footer p-3 border-top-0 bg-transparent">
+            <div class="text-center">
+              <button (click)="buyProduct(product.id)" class="btn btn-primary">Add to Cart</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-      
-      </section>
+</section>
 
 <!--Pagination-->
 <div class="d-flex justify-content-center flex-wrap mt-4">
@@ -101,9 +95,8 @@
   </div>
 </div>
 
-      <!-- Mensaje de éxito -->
-      <div *ngIf="showAlert" class="success-alert alert alert-dismissible alert-success">
-        <button type="button" class="btn-close" (click)="showAlert = false"></button>
-        <strong>Well done!</strong> You successfully added: <b>"{{ addedProductTitle }}"</b> to the cart.
-      </div>
-    
+<!-- Mensaje de éxito -->
+<div *ngIf="showAlert" class="success-alert alert alert-dismissible alert-success">
+  <button type="button" class="btn-close" (click)="showAlert = false"></button>
+  <strong>Well done!</strong> You successfully added: <b>"{{ addedProductTitle }}"</b> to the cart.
+</div>
