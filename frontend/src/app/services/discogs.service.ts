@@ -35,4 +35,8 @@ export class DiscogsService {
       }))
     );
   }
+
+  getListingDetails(resourceUrl: string): Observable<any> {
+    return this.http.get<any>(resourceUrl);
+  }
 }

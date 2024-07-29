@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { DiscogsService } from '../../services/discogs.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -24,11 +25,14 @@ export class HomeComponent implements OnInit {
   searchQuery: string = '';
   sortBy: string = '';
   sortOrder: string = 'asc';
+  inventory: any = { listings: [], pagination: {} };
+
 
   constructor(private cartService: CartService, private discogsService: DiscogsService) {}
 
   ngOnInit(): void {
     this.loadPage(this.currentPage);
+    this.loadInventory();
 
     const interval = setInterval(() => {
       if (this.progress < 100) {
@@ -130,6 +134,12 @@ export class HomeComponent implements OnInit {
       pages.push(i);
     }
     return pages;
+  }
+
+  loadInventory(page: number = 1, perPage: number = 20): void {
+    this.discogsService.getInventory(page, perPage).subscribe(response => {
+      this.inventory = response;
+    });
   }
   
 }

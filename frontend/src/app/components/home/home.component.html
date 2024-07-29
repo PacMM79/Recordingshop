@@ -43,32 +43,35 @@
 
 
 
-      <!-- List Productos -->
-      <div class="container px-4 px-lg-5 mt-4">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 justify-content-center">
-          <div class="col mb-5" *ngFor="let product of filteredProducts">
-            <div class="card h-100">
-              <img class="card-img-top" [src]="product.release.thumbnail || 'assets/images/curtis.jpg'"
-                [alt]="product.release.title" />
-              <div class="card-body">
-      
-                <h5 class="fw-bolder card-title">{{ product.release.artist }}</h5>
-                <h6 class="fw-bolder card-text">{{ product.release.title }}</h6>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{ product.release.format }}</li>
-                <li class="list-group-item">Price: {{ product.price.value | number:'1.2-2' }} €</li>
-              </ul>
-              
-              <div class="card-footer p-3 border-top-0 bg-transparent">
-                <div class="text-center">
-                  <button (click)="buyProduct(product.id)" class="btn btn-primary">Add to Cart</button>
-                </div>
-              </div>
-            </div>
+<!-- List Productos -->
+<div class="container px-4 px-lg-5 mt-4">
+  <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 justify-content-center">
+    <div class="col mb-5" *ngFor="let product of filteredProducts">
+      <div class="card h-100">
+        <a [routerLink]="['/listing', product.resource_url]">
+        <img class="card-img-top" [src]="product.release.thumbnail || 'assets/images/curtis.jpg'"
+          [alt]="product.release.title" /></a>
+        <div class="card-body">
+          <h5 class="fw-bolder card-title">{{ product.release.artist }}</h5>
+          <h6 class="fw-bolder card-text">{{ product.release.title }}</h6>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><b>Format:</b> {{ product.release.format }}</li>
+          <li class="list-group-item"><b>Label:</b> {{ product.release.label }}</li>
+          <li class="list-group-item"><b>Price:</b> {{ product.price.value | number:'1.2-2' }} €</li>
+          <li class="list-group-item"><a [routerLink]="['/listing', product.resource_url]">Details</a></li>
+        </ul>
+
+        <div class="card-footer p-3 border-top-0 bg-transparent">
+          <div class="text-center">
+            <button (click)="buyProduct(product.id)" class="btn btn-primary">Add to Cart</button>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
       
       </section>
 

@@ -1,0 +1,13 @@
+<div *ngIf="listingDetails">
+    <h2>{{ listingDetails.release.title }}</h2>
+    <img [src]="listingDetails.release.images[0]?.uri" alt="{{ listingDetails.release.title }}" />
+    <p><strong>Artist:</strong> {{ listingDetails.release.artist }}</p>
+    <p><strong>Format:</strong> {{ listingDetails.release.format }}</p>
+    <p><strong>Label:</strong> {{ listingDetails.release.label }}</p>
+    <p><strong>Catalog Number:</strong> {{ listingDetails.release.catalog_number }}</p>
+    <p><strong>Price:</strong> {{ listingDetails.price.value }} {{ listingDetails.price.currency }}</p>
+    <p><strong>Condition:</strong> {{ listingDetails.condition }}</p>
+    <p><strong>Sleeve Condition:</strong> {{ listingDetails.sleeve_condition }}</p>
+    <p><strong>Comments:</strong> {{ listingDetails.comments }}</p>
+  </div>
+  
