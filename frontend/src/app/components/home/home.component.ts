@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { DiscogsService } from '../../services/discogs.service';
 import { RouterLink } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -28,10 +30,21 @@ export class HomeComponent implements OnInit {
   inventory: any = { listings: [], pagination: {} };
 
 
-  constructor(private cartService: CartService, private discogsService: DiscogsService) {}
+  constructor(
+    private cartService: CartService, 
+    private discogsService: DiscogsService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.loadPage(this.currentPage);
+    // Leer el número de página de la URL
+    this.route.queryParams.subscribe(params => {
+      const page = +params['page'] || 1;
+      this.currentPage = page;
+      this.loadPage(this.currentPage);
+    });
+
     this.loadInventory();
 
     const interval = setInterval(() => {
@@ -46,13 +59,13 @@ export class HomeComponent implements OnInit {
   loadPage(page: number): void {
     this.loading = true;
     console.log('Fetching inventory for page', page);
-  
+
     const searchParams = {
       status: 'for sale',
       sort: this.sortBy,
       sortOrder: this.sortOrder
     };
-  
+
     this.discogsService.getInventory(page, 20, searchParams).subscribe({
       next: (data: any) => {
         this.products = data.listings;
@@ -60,6 +73,13 @@ export class HomeComponent implements OnInit {
         this.totalPages = data.pagination.pages;
         this.loading = false;
         this.currentPage = page;
+        
+        // Actualizar el número de página en la URL
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { page: this.currentPage },
+          queryParamsHandling: 'merge'
+        });
       },
       error: (error) => {
         console.error('Error fetching inventory:', error);
@@ -96,22 +116,23 @@ export class HomeComponent implements OnInit {
       this.loadPage(this.currentPage + 1);
     }
   }
-
+  
   prevPage(): void {
     if (this.currentPage > 1) {
       this.loadPage(this.currentPage - 1);
     }
   }
-
+  
   firstPageGroup(): void {
     const startPage = 1;
     this.loadPage(startPage);
   }
-
+  
   lastPageGroup(): void {
     const lastGroupFirstPage = Math.floor((this.totalPages - 1) / this.pagesPerGroup) * this.pagesPerGroup + 1;
     this.loadPage(lastGroupFirstPage);
   }
+  
 
   buyProduct(id: number): void {
     const product = this.products.find(product => product.id === id);
