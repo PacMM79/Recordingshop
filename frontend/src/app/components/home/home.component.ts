@@ -59,13 +59,13 @@ export class HomeComponent implements OnInit {
   loadPage(page: number): void {
     this.loading = true;
     console.log('Fetching inventory for page', page);
-
+  
     const searchParams = {
       status: 'for sale',
       sort: this.sortBy,
       sortOrder: this.sortOrder
     };
-
+  
     this.discogsService.getInventory(page, 20, searchParams).subscribe({
       next: (data: any) => {
         this.products = data.listings;
@@ -73,13 +73,16 @@ export class HomeComponent implements OnInit {
         this.totalPages = data.pagination.pages;
         this.loading = false;
         this.currentPage = page;
-        
+  
         // Actualizar el número de página en la URL
         this.router.navigate([], {
           relativeTo: this.route,
           queryParams: { page: this.currentPage },
           queryParamsHandling: 'merge'
         });
+  
+        // Mover el scroll hacia arriba después de la carga de la página
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       },
       error: (error) => {
         console.error('Error fetching inventory:', error);
@@ -91,6 +94,7 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+  
   
   
 
