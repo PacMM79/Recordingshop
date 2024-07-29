@@ -24,13 +24,10 @@
 					<a class="nav-link fw-bolder" href="/home">HOME</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link fw-bolder" href="/checkout"><i class="fas fa-shopping-basket"></i> CHECKOUT</a>
+					<a class="nav-link fw-bolder" href="/about-us">ABOUT US</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link fw-bolder" href="#beauty"><i class="fas fa-heart"></i> Beauty</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link fw-bolder" href="#clothes"><i class="fas fa-tshirt"></i> Clothes</a>
+					<a class="nav-link fw-bolder" href="/contact">CONTACT</a>
 				</li>
 			</ul>
 
@@ -45,6 +42,7 @@
 				  <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 					<a class="dropdown-item" *ngIf="!currentUser" (click)="register()">Register</a>
 					<a class="dropdown-item" *ngIf="currentUser" (click)="myAccount()">My Account</a>
+					<a class="dropdown-item" *ngIf="currentUser" href="/checkout">Checkout</a>
 					<a class="dropdown-item" *ngIf="currentUser" (click)="logout()">Logout</a>
 				  </div>
 				</div>
