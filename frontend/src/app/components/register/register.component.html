@@ -1,4 +1,4 @@
-<div class="col-6 col-md-4 offset-3 offset-md-4 my-5">
+<div class="card col-10 col-sm-8 col-md-6 col-xl-4 offset-1 offset-sm-2 offset-md-3 offset-xl-4 my-5">
   <div class="card border-warning">
     <div class="card-header">
       <h2 class="d-flex justify-content-center">Welcome</h2>
@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
       <form [formGroup]="registerForm" (ngSubmit)="register()">
-        <div>
+        <div class="col-8 offset-2">
           <label for="name" class="form-label">Name</label>
           <input type="text" id="name" formControlName="name" class="form-control" required>
           <div *ngIf="nameControl?.invalid && (nameControl?.dirty || nameControl?.touched)" class="text-danger">
@@ -14,7 +14,7 @@
             <div *ngIf="nameControl?.errors?.['minlength']">Name must be at least 3 characters long.</div>
           </div>
         </div>
-        <div>
+        <div class="col-8 offset-2">
           <label for="email" class="form-label mt-2">Email</label>
           <input type="email" id="email" formControlName="email" class="form-control" required>
           <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)" class="text-danger">
@@ -22,7 +22,7 @@
             <div *ngIf="emailControl?.errors?.['email']">Enter a valid email.</div>
           </div>
         </div>
-        <div>
+        <div class="col-8 offset-2">
           <label for="password" class="form-label mt-2">Password</label>
           <input type="password" id="password" formControlName="password" class="form-control" required>
           <div *ngIf="passwordControl?.invalid && (passwordControl?.dirty || passwordControl?.touched)" class="text-danger">
@@ -30,7 +30,9 @@
             <div *ngIf="passwordControl?.errors?.['minlength']">Password must be at least 6 characters long.</div>
           </div>
         </div>
+        <div class="col-8 offset-2">
         <button type="submit" class="btn btn-warning my-4 text-dark" [disabled]="registerForm.invalid">Continue</button>
+      </div>
       </form>
       <p class="d-flex justify-content-center"><i class="bi bi-info-circle me-2"></i> Already have an account? 
         <a href="/login" class="text-warning ms-2">Login here.</a>
