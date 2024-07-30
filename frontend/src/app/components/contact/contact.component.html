@@ -1,0 +1,61 @@
+<div class="d-flex mt-5">
+    <div class="container container-fluid">
+        <div class="col col-sm-12">
+            <div>
+                <h2 class="text-center">Contacto</h2>
+            </div>
+            <div>
+                <h5 class="text-center">
+                    Si tienes cualquier duda, consulta o sugerencia puedes ponerte en <b>contacto con nosotros<br></b> 
+                    <a href="mailto:barcelonacityrecords@gmail.com" class="btn btn-outline-light rounded-pill p-3 mt-3">
+                        <i class="bi bi-envelope-at me-1"></i>barcelonacityrecords&#64;gmail.com</a><br>
+                    <a href="https://api.whatsapp.com/send?phone=34666118347" class="btn btn-outline-light rounded-pill p-3 mt-3" target="_blank" rel="noopener">
+                        <i class="bi bi-whatsapp me-1"></i>WhatsApp</a><br>
+                    <a href="tel:666118347" class="btn btn-outline-light rounded-pill p-3 mt-3">
+                        <i class="bi bi-telephone me-1"></i>666 118 347</a>
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-4 offset-4 my-5">
+    <h1>Contact with us</h1>
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="name" class="form-label">Nombre</label>
+        <input type="text" id="name" class="form-control" formControlName="name" />
+        <div *ngIf="contactForm.get('name')?.invalid && (contactForm.get('name')?.dirty || contactForm.get('name')?.touched)" class="text-danger">
+          <div *ngIf="contactForm.get('name')?.errors?.['required']">El nombre es requerido.</div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" class="form-control" formControlName="email" />
+        <div *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.dirty || contactForm.get('email')?.touched)" class="text-danger">
+          <div *ngIf="contactForm.get('email')?.errors?.['required']">El email es requerido.</div>
+          <div *ngIf="contactForm.get('email')?.errors?.['email']">El email no es válido.</div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="phone" class="form-label">Teléfono</label>
+        <input type="text" id="phone" class="form-control" formControlName="phone" />
+        <div *ngIf="contactForm.get('phone')?.invalid && (contactForm.get('phone')?.dirty || contactForm.get('phone')?.touched)" class="text-danger">
+          <div *ngIf="contactForm.get('phone')?.errors?.['required']">El teléfono es requerido.</div>
+          <div *ngIf="contactForm.get('phone')?.errors?.['pattern']">El teléfono no es válido.</div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="message" class="form-label">Mensaje</label>
+        <textarea id="message" rows="5" class="form-control" formControlName="message"></textarea>
+        <div *ngIf="contactForm.get('message')?.invalid && (contactForm.get('message')?.dirty || contactForm.get('message')?.touched)" class="text-danger">
+          <div *ngIf="contactForm.get('message')?.errors?.['required']">El mensaje es requerido.</div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg" [disabled]="contactForm.invalid">Enviar</button>
+    </form>
+  </div>
+  
+  

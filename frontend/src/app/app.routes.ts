@@ -7,6 +7,7 @@ import { MyAccountComponent } from './components/my-account/my-account.component
 import { OrderSuccessComponent } from './components/order-success/order-success.component';
 import { ListingDetailsComponent } from './components/listing-details/listing-details.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 
 export const routes: Routes = [
@@ -19,4 +20,5 @@ export const routes: Routes = [
   { path: 'order-success', component: OrderSuccessComponent },
   { path: 'listing/:resourceUrl', component: ListingDetailsComponent },
   { path: 'about-us', component: AboutUsComponent },
+  { path: 'contact', component: ContactComponent },
 ];
