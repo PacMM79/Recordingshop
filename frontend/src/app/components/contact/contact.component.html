@@ -2,16 +2,16 @@
     <div class="container container-fluid">
         <div class="col col-sm-12">
             <div>
-                <h2 class="text-center">Contacto</h2>
+                <h2 class="text-center mb-4">Contact</h2>
             </div>
             <div>
-                <h5 class="text-center">
+                <h5 class="text-center mb-3">
                     Si tienes cualquier duda, consulta o sugerencia puedes ponerte en <b>contacto con nosotros<br></b> 
-                    <a href="mailto:barcelonacityrecords@gmail.com" class="btn btn-outline-light rounded-pill p-3 mt-3">
+                    <a href="mailto:barcelonacityrecords@gmail.com" class="btn btn-outline-warning rounded-pill p-3 mt-4">
                         <i class="bi bi-envelope-at me-1"></i>barcelonacityrecords&#64;gmail.com</a><br>
-                    <a href="https://api.whatsapp.com/send?phone=34666118347" class="btn btn-outline-light rounded-pill p-3 mt-3" target="_blank" rel="noopener">
+                    <a href="https://api.whatsapp.com/send?phone=34666118347" class="btn btn-outline-warning rounded-pill p-3 mt-3" target="_blank" rel="noopener">
                         <i class="bi bi-whatsapp me-1"></i>WhatsApp</a><br>
-                    <a href="tel:666118347" class="btn btn-outline-light rounded-pill p-3 mt-3">
+                    <a href="tel:666118347" class="btn btn-outline-warning rounded-pill p-3 mt-3">
                         <i class="bi bi-telephone me-1"></i>666 118 347</a>
                 </h5>
             </div>
@@ -54,7 +54,7 @@
           <div *ngIf="contactForm.get('message')?.errors?.['required']">El mensaje es requerido.</div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary btn-lg" [disabled]="contactForm.invalid">Enviar</button>
+      <button type="submit" class="btn btn-primary btn-lg rounded-pill" [disabled]="contactForm.invalid">Enviar</button>
     </form>
   </div>
   
