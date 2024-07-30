@@ -28,7 +28,7 @@ export class CartService {
           id: buyProduct.id,
           name: buyProduct.release.title,
           artist: buyProduct.release.artist,
-          price: buyProduct.price.value,
+          price: buyProduct.original_price.value,
           thumbnail: buyProduct.release.thumbnail,
           quantity: 1,
           currency: buyProduct.price.currency // Asegúrate de incluir la moneda
