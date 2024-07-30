@@ -48,12 +48,16 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/register']);
   }
 
+  checkout() {
+    this.router.navigate(['/checkout']);
+  }
+
   handleButtonClick() {
     if (!this.currentUser) {
       this.login();
     }
     else
-    this.myAccount();
+    this.checkout();
   }
 
   myAccount() {
